@@ -43,7 +43,7 @@ html, body {
 .screen.active { display: flex; }
 @keyframes fadeIn { from{opacity:0;transform:translateX(5px)} to{opacity:1;transform:none} }
 
-    .screen-scroll {
+.screen-scroll {
   flex: 1; overflow-y: auto; overflow-x: hidden;
   scrollbar-width: none; -webkit-overflow-scrolling: touch;
 }
@@ -54,6 +54,7 @@ html, body {
   padding: 4px 20px 8px; flex-shrink: 0;
   border-radius: 0;
 }
+/* No phone border radius needed in fullscreen mode */
 #s-hjem > .nav-header {
   border-radius: 0;
 }
@@ -66,6 +67,7 @@ html, body {
 .nav-back svg { width: 9px; height: 15px; }
 .page-title { font-size: 34px; font-weight: 800; color: var(--text); padding: 2px 20px 14px; }
 
+/* ── TAB BAR — floating pill island, 1:1 with reference ── */
 .tab-bar {
   display: flex;
   background: transparent;
@@ -95,6 +97,7 @@ html, body {
 }
 .tab svg { width: 24px; height: 24px; }
 
+/* ── ID CARD ── */
 .id-card-wrap { margin: 0 16px 8px; }
 
 .id-card {
@@ -111,7 +114,8 @@ html, body {
   color: white; cursor: default; user-select: none; -webkit-user-select: none;
 }
 
-    .id-card::before {
+/* Smaller grid — ~12px pitch matching ref */
+.id-card::before {
   content: ''; position: absolute; inset: 0; z-index: 0;
   background-image:
     linear-gradient(rgba(255,255,255,0.09) 1px, transparent 1px),
@@ -128,6 +132,7 @@ html, body {
   );
 }
 
+/* Shimmer — every 2.4s (more frequent as requested) */
 @keyframes cardShimmer {
   0%   { transform: translateX(-230%) skewX(-18deg); opacity: 0; }
   5%   { opacity: 1; }
@@ -156,6 +161,7 @@ html, body {
 
 .card-header { display: flex; justify-content: space-between; align-items: center; }
 
+/* e-Boks logo — NO pill background: white rounded square icon + white "Boks" text directly on card */
 .card-logo-pill {
   display: flex; align-items: center; gap: 8px;
   background: none; padding: 0;
@@ -164,16 +170,21 @@ html, body {
   width: 32px; height: 32px; background: white; border-radius: 7px;
   display: flex; align-items: center; justify-content: center; flex-shrink: 0;
 }
+/* Red "e" inside white square — larger */
 .eboks-e {
   font-size: 22px; font-weight: 900; color: var(--crimson); font-style: normal;
   line-height: 1; font-family: -apple-system, BlinkMacSystemFont, 'Helvetica Neue', sans-serif;
   margin-top: 1px;
 }
+/* "Boks" in white, bold */
 .card-logo-text { font-size: 16px; font-weight: 800; color: white; letter-spacing: -0.2px; }
+/* "e-Boks ID" right side — larger, white, bold */
 .card-type { font-size: 15px; font-weight: 700; color: white; letter-spacing: -0.1px; }
 
+/* Body: centered vertically on card */
 .card-body { display: flex; align-items: center; gap: 13px; flex: 1; margin-top: 8px; }
 
+/* Photo — NO border, no outline */
 .card-photo {
   width: 66px; height: 80px; border-radius: 6px; overflow: hidden;
   background: #CDA09C; flex-shrink: 0;
@@ -184,6 +195,7 @@ html, body {
 .card-photo-placeholder { width: 100%; height: 100%; display: flex; align-items: center; justify-content: center; }
 .card-photo input[type=file] { position: absolute; inset: 0; opacity: 0; cursor: pointer; }
 
+/* Text block centered alongside photo */
 .card-text { flex: 1; display: flex; flex-direction: column; justify-content: center; }
 .card-fl { font-size: 10px; color: rgba(255,255,255,0.62); margin-bottom: 1px; font-weight: 400; }
 .card-name { font-size: 17px; font-weight: 700; line-height: 1.1; margin-bottom: 9px; }
@@ -191,10 +203,12 @@ html, body {
 .card-footer { display: flex; justify-content: flex-end; margin-top: auto; }
 .card-age { font-size: 36px; font-weight: 800; color: rgba(255,255,255,0.92); line-height: 1; letter-spacing: -1px; }
 
+/* Dots */
 .dots { display:flex; gap:6px; justify-content:center; margin:6px 0 12px; }
 .dot { width:7px; height:7px; border-radius:50%; background:rgba(0,0,0,0.14); }
 .dot.active { background:rgba(0,0,0,0.32); }
 
+/* Menu */
 .menu-group { background:white; border-radius:14px; margin:0 16px 10px; overflow:hidden; }
 .menu-item {
   display:flex; align-items:center; gap:14px; padding:14px 16px; cursor:pointer;
@@ -207,6 +221,7 @@ html, body {
 .menu-label { font-size:16px; color:var(--text); flex:1; font-weight:400; }
 .menu-chevron svg { width:7px; height:12px; color:#C7C7CC; }
 
+/* Buttons */
 .cta-btn {
   display:flex; align-items:center; justify-content:center; gap:10px;
   background:var(--crimson); color:white; border:none; border-radius:14px;
@@ -217,6 +232,7 @@ html, body {
 .log-af-btn { background:rgba(200,16,62,0.09); color:var(--crimson); border:none; border-radius:20px; padding:8px 18px; font-size:15px; font-weight:500; cursor:pointer; }
 .delete-btn { display:block; margin:0 auto; background:rgba(0,0,0,0.06); color:var(--text); border:none; border-radius:22px; padding:13px 32px; font-size:15px; font-weight:600; cursor:pointer; }
 
+/* Nav action buttons — sit inside shared pill container */
 .nav-action-btn {
   width: 40px; height: 36px;
   display: flex; align-items: center; justify-content: center;
@@ -226,6 +242,7 @@ html, body {
 .nav-action-btn:active { background: rgba(200,16,62,0.06); }
 .nav-action-btn svg { width: 19px; height: 19px; }
 
+/* QR */
 .qr-wrap {
   background:white; border-radius:16px; padding:14px;
   margin:0 16px 14px;
@@ -234,8 +251,7 @@ html, body {
 }
 canvas#qrCanvas { width:100%; max-width:290px; height:auto; aspect-ratio:1; image-rendering:pixelated; display:block; }
 
-
-    <style>
+/* Toggles */
 .toggle-list { background:white; border-radius:14px; margin:0 16px; overflow:hidden; }
 .toggle-row { display:flex; align-items:center; justify-content:space-between; padding:14px 16px; border-bottom:0.5px solid var(--border); }
 .toggle-row:last-child { border-bottom:none; }
@@ -245,6 +261,7 @@ canvas#qrCanvas { width:100%; max-width:290px; height:auto; aspect-ratio:1; imag
 .toggle-sw::after { content:''; position:absolute; top:2.5px; right:2.5px; width:26px; height:26px; background:white; border-radius:50%; box-shadow:0 2px 5px rgba(0,0,0,0.25); transition:transform 0.2s; }
 .toggle-sw.off::after { transform:translateX(-20px); }
 
+/* Login */
 .login-wrap { flex:1; display:flex; align-items:center; justify-content:center; background:#F8F0F2; }
 .login-icon { width:180px; height:180px; position:relative; display:flex; align-items:center; justify-content:center; }
 .ripple-ring { position:absolute; border-radius:50%; background:rgba(200,16,62,0.10); animation:rp 2.2s ease-in-out infinite; }
@@ -254,6 +271,7 @@ canvas#qrCanvas { width:100%; max-width:290px; height:auto; aspect-ratio:1; imag
 .powered-by{display:flex;align-items:center;justify-content:center;gap:5px;font-size:12px;color:var(--subtext);margin-top:10px;}
 .powered-dot{width:20px;height:20px;border-radius:5px;background:linear-gradient(135deg,#6B7AE8,#C084FC);display:flex;align-items:center;justify-content:center;font-size:9px;color:white;font-weight:900;}
 
+/* Forms */
 .form-group{margin-bottom:12px;}
 .form-label{font-size:12px;font-weight:600;color:var(--subtext);text-transform:uppercase;letter-spacing:0.5px;margin-bottom:6px;padding-left:4px;display:block;}
 .form-input{width:100%;background:white;border:1px solid var(--border);border-radius:12px;padding:14px 16px;font-size:16px;color:var(--text);outline:none;font-family:inherit;transition:border-color 0.15s;}
@@ -266,6 +284,7 @@ select.form-input{appearance:none;-webkit-appearance:none;cursor:pointer;}
 .info-val{font-size:14px;font-weight:500;color:var(--text);}
 .settings-version{text-align:center;font-size:14px;color:var(--subtext);padding:30px 0 10px;}
 
+/* Modal */
 .overlay{position:absolute;inset:0;background:rgba(0,0,0,0.38);display:none;align-items:center;justify-content:center;z-index:100;backdrop-filter:blur(4px);}
 .overlay.show{display:flex;}
 .modal{background:white;border-radius:20px;padding:28px 24px 20px;margin:20px;width:100%;max-width:320px;text-align:center;}
@@ -276,43 +295,136 @@ select.form-input{appearance:none;-webkit-appearance:none;cursor:pointer;}
 .modal-btn.cancel{background:var(--bg);color:var(--text);}
 .modal-btn.danger{background:var(--crimson);color:white;}
 
+/* Photo upload in settings */
 .photo-upload-section{background:white;border-radius:14px;margin:0 16px 12px;padding:16px;display:flex;flex-direction:column;align-items:center;gap:10px;}
 .photo-upload-preview{width:80px;height:96px;border-radius:8px;overflow:hidden;background:#F0E8EA;display:flex;align-items:center;justify-content:center;border:2px dashed rgba(200,16,62,0.3);position:relative;cursor:pointer;}
 .photo-upload-preview img{width:100%;height:100%;object-fit:cover;display:block;}
 .photo-upload-preview input[type=file]{position:absolute;inset:0;opacity:0;cursor:pointer;}
 .photo-upload-preview svg{width:32px;height:32px;color:var(--crimson);opacity:0.6;}
+
+/* ── LANDSCAPE FULLSCREEN OVERLAY ── */
+#landscapeOverlay {
+  position: fixed; inset: 0; z-index: 999;
+  background: #000;
+  display: flex; align-items: center; justify-content: center;
+  opacity: 0; pointer-events: none;
+  transition: opacity 0.3s ease;
+}
+#landscapeOverlay.show {
+  opacity: 1; pointer-events: all;
+}
+#landscapeCardWrap {
+  position: absolute;
+  top: 50%; left: 50%;
+  transform: translate(-50%, -50%) rotate(90deg);
+  width: calc(100vh - 48px);
+  max-width: 580px;
+  opacity: 0;
+  transition: opacity 0.35s ease 0.15s;
+}
+#landscapeOverlay.show #landscapeCardWrap {
+  opacity: 1;
+}
+#landscapeCard {
+  width: 100%;
+  aspect-ratio: 85.6 / 54;
+  border-radius: 22px; overflow: hidden; position: relative;
+  box-shadow: 0 20px 60px rgba(180,10,50,0.55), 0 4px 16px rgba(0,0,0,0.25);
+  color: white; user-select: none; -webkit-user-select: none;
+}
+#landscapeCloseBtn {
+  position: absolute;
+  top: 20px; right: 20px;
+  width: 40px; height: 40px;
+  background: rgba(0,0,0,0.55);
+  border: none; border-radius: 50%;
+  color: white; font-size: 20px; cursor: pointer;
+  display: flex; align-items: center; justify-content: center;
+  z-index: 10;
+  transform: rotate(90deg);
+  backdrop-filter: blur(8px);
+}
 </style>
 </head>
 <body>
 <div class="phone">
+
   <div class="dynamic-island"></div>
 
+  <!-- STATUS BAR -->
   <div class="status-bar">
-    <div class="status-left"><span class="status-time" id="statusTime">17:09</span></div>
+    <div class="status-left">
+      <span class="status-time" id="statusTime">17:09</span>
+    </div>
     <div class="status-icons">
-      <svg width="17" height="12" viewBox="0 0 17 12" fill="currentColor"><rect x="0" y="8" width="3" height="4" rx="0.7"/><rect x="4.5" y="5" width="3" height="7" rx="0.7"/><rect x="9" y="2" width="3" height="10" rx="0.7"/><rect x="13.5" y="0" width="3" height="12" rx="0.7" opacity="0.28"/></svg>
-      <svg width="16" height="12" viewBox="0 0 16 12" fill="none"><path d="M0.8 4.2C3.8 1.2 12.2 1.2 15.2 4.2" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/><path d="M3 6.8c1.4-1.4 9.6-1.4 11 0" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/><path d="M5.5 9.4c1.4-1.4 4.6-1.4 6 0" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/><circle cx="8" cy="11.4" r="1.2" fill="currentColor"/></svg>
-      <svg width="28" height="13" viewBox="0 0 28 13" fill="none"><rect x="0.5" y="0.5" width="23" height="12" rx="3.5" stroke="currentColor" stroke-opacity="0.35"/><rect x="2" y="2" width="19" height="9" rx="2" fill="#34C759"/><path d="M26 4.5v4a2 2 0 0 0 0-4z" fill="currentColor" fill-opacity="0.4"/><path d="M12 3L10 6.5h2.5L10.5 10" stroke="white" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      <svg width="17" height="12" viewBox="0 0 17 12" fill="currentColor">
+        <rect x="0"    y="8"  width="3" height="4"  rx="0.7"/>
+        <rect x="4.5"  y="5"  width="3" height="7"  rx="0.7"/>
+        <rect x="9"    y="2"  width="3" height="10" rx="0.7"/>
+        <rect x="13.5" y="0"  width="3" height="12" rx="0.7" opacity="0.28"/>
+      </svg>
+      <svg width="16" height="12" viewBox="0 0 16 12" fill="none">
+        <path d="M0.8 4.2C3.8 1.2 12.2 1.2 15.2 4.2" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/>
+        <path d="M3 6.8c1.4-1.4 9.6-1.4 11 0" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/>
+        <path d="M5.5 9.4c1.4-1.4 4.6-1.4 6 0" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/>
+        <circle cx="8" cy="11.4" r="1.2" fill="currentColor"/>
+      </svg>
+      <!-- Battery: green + charging bolt (ref img4) -->
+      <svg width="28" height="13" viewBox="0 0 28 13" fill="none">
+        <rect x="0.5" y="0.5" width="23" height="12" rx="3.5" stroke="currentColor" stroke-opacity="0.35"/>
+        <rect x="2" y="2" width="19" height="9" rx="2" fill="#34C759"/>
+        <path d="M26 4.5v4a2 2 0 0 0 0-4z" fill="currentColor" fill-opacity="0.4"/>
+        <path d="M12 3L10 6.5h2.5L10.5 10" stroke="white" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"/>
+      </svg>
     </div>
   </div>
 
-      <!-- HJEM SCREEN -->
+  <!-- ════ HJEM ════ -->
   <div class="screen active" id="s-hjem">
     <div class="nav-header">
       <span></span>
+      <!-- ref img1: pill with rounded corners, overflow hidden, divider between buttons -->
       <div style="display:flex;align-items:center;border:1.5px solid #D8D8DC;border-radius:50px;background:white;overflow:hidden;">
+        <!-- Plus button: thin circle outline with + inside — ref img1 left -->
         <div class="nav-action-btn" onclick="addCard()" style="border:none;border-radius:0;border-right:1.5px solid #D8D8DC;padding:0 13px;">
-          <svg width="20" height="20" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><circle cx="10" cy="10" r="8.5"/><line x1="10" y1="6" x2="10" y2="14"/><line x1="6" y1="10" x2="14" y2="10"/></svg>
+          <svg width="20" height="20" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round">
+            <circle cx="10" cy="10" r="8.5"/>
+            <line x1="10" y1="6" x2="10" y2="14"/>
+            <line x1="6" y1="10" x2="14" y2="10"/>
+          </svg>
         </div>
+        <!-- QR scan button: corner brackets ONLY, no inner squares — ref img1 right -->
         <div class="nav-action-btn" onclick="showScreen('s-qr')" style="border:none;border-radius:0;padding:0 13px;">
-          <svg width="20" height="20" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2 7V2h5"/><path d="M13 2h5v5"/><path d="M2 13v5h5"/><path d="M18 13v5h-5"/><rect x="4.5" y="4.5" width="4" height="4" rx="0.5"/><rect x="11.5" y="4.5" width="4" height="4" rx="0.5"/><rect x="4.5" y="11.5" width="4" height="4" rx="0.5"/></svg>
+          <svg width="20" height="20" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <!-- Top-left corner -->
+            <path d="M2 7V2h5"/>
+            <!-- Top-right corner -->
+            <path d="M13 2h5v5"/>
+            <!-- Bottom-left corner -->
+            <path d="M2 13v5h5"/>
+            <!-- Bottom-right corner -->
+            <path d="M18 13v5h-5"/>
+            <!-- Inner QR squares: top-left, top-right, bottom-left finder squares -->
+            <rect x="4.5" y="4.5" width="4" height="4" rx="0.5"/>
+            <rect x="11.5" y="4.5" width="4" height="4" rx="0.5"/>
+            <rect x="4.5" y="11.5" width="4" height="4" rx="0.5"/>
+            <!-- Dot pattern bottom-right -->
+            <rect x="12" y="12" width="1.5" height="1.5" rx="0.3" fill="currentColor" stroke="none"/>
+            <rect x="14" y="12" width="1.5" height="1.5" rx="0.3" fill="currentColor" stroke="none"/>
+            <rect x="12" y="14" width="1.5" height="1.5" rx="0.3" fill="currentColor" stroke="none"/>
+            <rect x="14" y="14" width="1.5" height="1.5" rx="0.3" fill="currentColor" stroke="none"/>
+          </svg>
         </div>
       </div>
     </div>
     <div class="screen-scroll">
       <div class="page-title">Hjem</div>
+
+      <!-- Carousel wrapper -->
       <div style="margin:0 16px 8px; overflow:hidden; border-radius:18px;" id="carouselOuter">
         <div id="carouselTrack" style="display:flex; transition:transform 0.35s cubic-bezier(0.4,0,0.2,1);">
+
+          <!-- Slide 1: Red e-Boks ID -->
           <div style="flex:0 0 100%; width:100%;">
             <div class="id-card">
               <div class="card-radial"></div>
@@ -327,7 +439,13 @@ select.form-input{appearance:none;-webkit-appearance:none;cursor:pointer;}
                 </div>
                 <div class="card-body">
                   <div class="card-photo" onclick="document.getElementById('cardPhotoInput').click()">
-                    <div id="cardPhotoDisplay" class="card-photo-placeholder">👤</div>
+                    <div id="cardPhotoDisplay" class="card-photo-placeholder">
+                      <svg viewBox="0 0 66 80" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <rect width="66" height="80" fill="#CDA09C"/>
+                        <circle cx="33" cy="27" r="14" fill="#B8908C"/>
+                        <path d="M2 80C2 62.3 16 48 33 48C50 48 64 62.3 64 80" fill="#B8908C"/>
+                      </svg>
+                    </div>
                     <input type="file" id="cardPhotoInput" accept="image/*" onchange="handlePhotoUpload(this)">
                   </div>
                   <div class="card-text">
@@ -337,12 +455,16 @@ select.form-input{appearance:none;-webkit-appearance:none;cursor:pointer;}
                     <div class="card-dob" id="cardDob">5 Apr, 2006</div>
                   </div>
                 </div>
-                <div class="card-footer"><div class="card-age">18+</div></div>
+                <div class="card-footer">
+                  <div class="card-age">18+</div>
+                </div>
               </div>
             </div>
           </div>
+
+          <!-- Slide 2: Blue Aldersbevis -->
           <div style="flex:0 0 100%; width:100%;">
-            <div class="id-card" style="background:linear-gradient(138deg,#2E7A87 0%,#1F6370 28%,#174F5A 58%,#0F3845 100%);">
+            <div class="id-card" style="background:linear-gradient(138deg,#2E7A87 0%,#1F6370 28%,#174F5A 58%,#0F3845 100%); box-shadow:0 14px 40px rgba(20,80,100,0.45),0 3px 10px rgba(0,0,0,0.14);">
               <div class="card-radial"></div>
               <div class="card-shimmer"></div>
               <div class="card-inner" style="display:flex;flex-direction:column;justify-content:space-between;">
@@ -354,96 +476,286 @@ select.form-input{appearance:none;-webkit-appearance:none;cursor:pointer;}
                   <span class="card-type">Aldersbevis</span>
                 </div>
                 <div style="position:relative;flex:1;margin-top:6px;display:flex;align-items:center;">
-                  <div id="aldersbevisPhotoDisplay" style="width:80px;height:100px;border-radius:7px;overflow:hidden;background:#7AAAB5;">👤</div>
-                  <div style="position:absolute;left:80px;right:0;display:flex;align-items:center;justify-content:center;height:100%;"><span style="font-size:61px;font-weight:800;color:rgba(255,255,255,0.95);">18+</span></div>
+                  <div id="aldersbevisPhotoDisplay" style="width:80px;height:100px;border-radius:7px;overflow:hidden;flex-shrink:0;background:#7AAAB5;position:relative;z-index:1;">
+                    <svg viewBox="0 0 80 100" fill="none" xmlns="http://www.w3.org/2000/svg" style="width:100%;height:100%;display:block;">
+                      <rect width="80" height="100" fill="#7AAAB5"/>
+                      <circle cx="40" cy="33" r="17" fill="#6090A0"/>
+                      <path d="M2 100C2 77.9 19.9 60 40 60C60.1 60 78 77.9 78 100" fill="#6090A0"/>
+                    </svg>
+                  </div>
+                  <div style="position:absolute;left:80px;right:0;display:flex;align-items:center;justify-content:center;height:100%;pointer-events:none;">
+                    <span style="font-size:61px;font-weight:800;color:rgba(255,255,255,0.95);line-height:1;letter-spacing:-2px;">18+</span>
+                  </div>
                 </div>
               </div>
             </div>
           </div>
+
         </div>
       </div>
-      <div class="dots"><div class="dot active" id="dot0"></div><div class="dot" id="dot1"></div></div>
+
+      <div class="dots">
+        <div class="dot active" id="dot0"></div>
+        <div class="dot" id="dot1"></div>
+      </div>
+
       <div class="menu-group">
-        <div class="menu-item" onclick="openLandscape(carouselCurrent)"><span class="menu-label">Vandret visning</span></div>
-        <div class="menu-item" onclick="showScreen('s-qr')"><span class="menu-label">Vis QR-kode</span></div>
+        <div class="menu-item" onclick="openLandscape(carouselCurrent)">
+          <div class="menu-icon">
+            <!-- Vandret visning — ref: small landscape screen with two curved corner arrows -->
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <!-- Screen body -->
+              <rect x="4" y="7" width="13" height="10" rx="1.5"/>
+              <!-- Top-left curved arrow -->
+              <path d="M4 5.5A4.5 4.5 0 0 1 8.5 4"/>
+              <polyline points="7 2.5 8.5 4 7 5.5"/>
+              <!-- Bottom-right curved arrow -->
+              <path d="M17 18.5A4.5 4.5 0 0 1 12.5 20"/>
+              <polyline points="14 21.5 12.5 20 14 18.5"/>
+            </svg>
+          </div>
+          <span class="menu-label">Vandret visning</span>
+          <div class="menu-chevron"><svg viewBox="0 0 8 14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><polyline points="1,1 7,7 1,13"/></svg></div>
+        </div>
+        <div class="menu-item" onclick="showScreen('s-qr')">
+          <div class="menu-icon">
+            <!-- Vis QR-kode — ref: rounded square frame with corner brackets + QR grid inside -->
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <!-- Outer rounded square frame -->
+              <rect x="2" y="2" width="20" height="20" rx="4"/>
+              <!-- Corner accent lines top-left -->
+              <path d="M6 2v3M2 6h3"/>
+              <!-- Corner accent lines top-right -->
+              <path d="M18 2v3M22 6h-3"/>
+              <!-- Corner accent lines bottom-left -->
+              <path d="M6 22v-3M2 18h3"/>
+              <!-- Corner accent lines bottom-right -->
+              <path d="M18 22v-3M22 18h-3"/>
+              <!-- QR finder squares inside -->
+              <rect x="5.5" y="5.5" width="4.5" height="4.5" rx="0.8"/>
+              <rect x="14" y="5.5" width="4.5" height="4.5" rx="0.8"/>
+              <rect x="5.5" y="14" width="4.5" height="4.5" rx="0.8"/>
+              <!-- Dot cluster bottom-right -->
+              <rect x="14.2" y="14.2" width="1.8" height="1.8" rx="0.4" fill="currentColor" stroke="none"/>
+              <rect x="16.5" y="14.2" width="1.8" height="1.8" rx="0.4" fill="currentColor" stroke="none"/>
+              <rect x="14.2" y="16.5" width="1.8" height="1.8" rx="0.4" fill="currentColor" stroke="none"/>
+              <rect x="16.5" y="16.5" width="1.8" height="1.8" rx="0.4" fill="currentColor" stroke="none"/>
+            </svg>
+          </div>
+          <span class="menu-label">Vis QR-kode</span>
+          <div class="menu-chevron"><svg viewBox="0 0 8 14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><polyline points="1,1 7,7 1,13"/></svg></div>
+        </div>
       </div>
     </div>
-    <div class="tab-bar"><div class="tab-bar-pill"><div class="tab active" onclick="showScreen('s-hjem')">Hjem</div><div class="tab" onclick="showScreen('s-indstillinger')">Indstillinger</div></div></div>
+
+    <div class="tab-bar"><div class="tab-bar-pill"><div class="tab active" onclick="showScreen('s-hjem')">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/>
+          <polyline points="14 2 14 8 20 8"/>
+        </svg>
+        Hjem
+      </div>
+      <div class="tab" onclick="showScreen('s-indstillinger')">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <circle cx="12" cy="12" r="3"/>
+          <path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83-2.83l.06-.06A1.65 1.65 0 0 0 4.68 15a1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 2.83-2.83l.06.06A1.65 1.65 0 0 0 9 4.68a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 2.83l-.06.06A1.65 1.65 0 0 0 19.4 9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/>
+        </svg>
+        Indstillinger
+      </div></div></div>
   </div>
 
-  <!-- QR SCREEN -->
+  <!-- ════ QR ════ -->
   <div class="screen" id="s-qr">
-    <div class="nav-header" style="padding-top:6px;"><button class="nav-back" onclick="showScreen('s-hjem')">Tilbage</button><span class="nav-title">Detaljer</span><span style="width:40px;"></span></div>
-    <div class="screen-scroll">
-      <div style="background:white;border-radius:18px;margin:8px 16px 12px;padding:24px 18px 0;display:flex;flex-direction:column;align-items:center;">
-        <div id="qrPhotoDisplay" style="width:140px;height:170px;border-radius:10px;overflow:hidden;background:#D0D0D5;margin-bottom:14px;">👤</div>
-        <div id="qrCardName" style="font-size:20px;font-weight:700;color:#1C1C1E;margin-bottom:4px;">Julie Jensen</div>
-        <div style="font-size:14px;color:#8E8E93;margin-bottom:20px;">e-Boks ID</div>
-      </div>
-      <div class="qr-wrap"><canvas id="qrCanvas" width="350" height="350"></canvas></div>
+    <div class="nav-header" style="padding-top:6px;">
+      <button class="nav-back" onclick="showScreen('s-hjem')">
+        <svg viewBox="0 0 9 15" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><polyline points="8,1 1,7.5 8,14"/></svg>
+      </button>
+      <span class="nav-title" style="font-size:17px;font-weight:600;color:var(--text);">Detaljer</span>
+      <span style="width:40px;"></span>
     </div>
-    <div class="tab-bar"><div class="tab-bar-pill"><div class="tab" onclick="showScreen('s-hjem')">Hjem</div><div class="tab" onclick="showScreen('s-indstillinger')">Indstillinger</div></div></div>
+    <div class="screen-scroll">
+      <!-- Profile card matching reference 1:1 -->
+      <div style="background:white;border-radius:18px;margin:8px 16px 12px;padding:24px 18px 0;display:flex;flex-direction:column;align-items:center;">
+        <div id="qrPhotoDisplay" style="width:140px;height:170px;border-radius:10px;overflow:hidden;background:#D0D0D5;margin-bottom:14px;">
+          <svg viewBox="0 0 140 170" fill="none" xmlns="http://www.w3.org/2000/svg" style="width:100%;height:100%;display:block;">
+            <rect width="140" height="170" fill="#D0D0D5"/>
+            <circle cx="70" cy="58" r="28" fill="#B0B0B8"/>
+            <path d="M5 170C5 133 34 108 70 108C106 108 135 133 135 170" fill="#B0B0B8"/>
+          </svg>
+        </div>
+        <div id="qrCardName" style="font-size:20px;font-weight:700;color:#1C1C1E;text-align:center;margin-bottom:4px;">Julie Jensen</div>
+        <div style="font-size:14px;color:#8E8E93;font-weight:400;margin-bottom:20px;">e-Boks ID</div>
+        <div style="width:100%;height:0.5px;background:#E5E5EA;"></div>
+      </div>
+      <div class="qr-wrap" style="margin-top:0;">
+        <canvas id="qrCanvas" width="350" height="350"></canvas>
+      </div>
+      <div class="toggle-list">
+        <div class="toggle-row"><span class="toggle-label">Bruger-ID</span><button class="toggle-sw" onclick="this.classList.toggle('off')"></button></div>
+        <div class="toggle-row"><span class="toggle-label">Fødselsdag</span><button class="toggle-sw" onclick="this.classList.toggle('off')"></button></div>
+        <div class="toggle-row"><span class="toggle-label">Navn</span><button class="toggle-sw" onclick="this.classList.toggle('off')"></button></div>
+        <div class="toggle-row"><span class="toggle-label">Over 15</span><button class="toggle-sw" onclick="this.classList.toggle('off')"></button></div>
+        <div class="toggle-row"><span class="toggle-label">Over 16</span><button class="toggle-sw off" onclick="this.classList.toggle('off')"></button></div>
+        <div class="toggle-row"><span class="toggle-label">Over 18</span><button class="toggle-sw" onclick="this.classList.toggle('off')"></button></div>
+      </div>
+      <div style="height:20px"></div>
+    </div>
+    <div class="tab-bar"><div class="tab-bar-pill"><div class="tab active" onclick="showScreen('s-hjem')">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
+        Hjem
+      </div>
+      <div class="tab" onclick="showScreen('s-indstillinger')">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83-2.83l.06-.06A1.65 1.65 0 0 0 4.68 15a1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 2.83-2.83l.06.06A1.65 1.65 0 0 0 9 4.68a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 2.83l-.06.06A1.65 1.65 0 0 0 19.4 9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg>
+        Indstillinger
+      </div></div></div>
   </div>
 
-
-      <!-- LOGIN SCREEN -->
-  <div class="screen" id="s-login">
-    <div class="login-wrap"><div class="login-circle"><span style="font-size:52px;color:white;">e</span></div></div>
-    <div style="padding:0 20px 28px;background:#F8F0F2;"><button class="cta-btn" onclick="showScreen('s-hjem')">Log på</button></div>
+  <!-- ════ LOGIN ════ -->
+  <div class="screen" id="s-login" style="background:#F8F0F2;">
+    <div class="login-wrap">
+      <div class="login-icon">
+        <div class="ripple-ring r1"></div><div class="ripple-ring r2"></div>
+        <div class="login-circle">
+          <span style="font-size:52px;font-weight:900;color:white;font-family:-apple-system,BlinkMacSystemFont,sans-serif;line-height:1;">e</span>
+        </div>
+      </div>
+    </div>
+    <div style="padding:0 20px 28px;background:#F8F0F2;flex-shrink:0;">
+      <button class="cta-btn" onclick="showScreen('s-hjem')">Log på</button>
+      <div class="powered-by">Powered by dewa <div class="powered-dot">d</div></div>
+    </div>
   </div>
 
-  <!-- INDSTILLINGER SCREEN -->
+  <!-- ════ INDSTILLINGER ════ -->
   <div class="screen" id="s-indstillinger">
     <div class="nav-header"><span></span><button class="log-af-btn" onclick="showScreen('s-login')">Log af</button></div>
     <div class="screen-scroll">
       <div class="page-title">Indstillinger</div>
       <div class="menu-group">
-        <div class="menu-item" onclick="showScreen('s-sikkerhed')"><span class="menu-label">Sikkerhed</span></div>
-        <div class="menu-item" onclick="showScreen('s-sprog')"><span class="menu-label">Sprog</span></div>
-        <div class="menu-item" onclick="showScreen('s-om')"><span class="menu-label">Om</span></div>
+        <div class="menu-item" onclick="showScreen('s-sikkerhed')">
+          <div class="menu-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg></div>
+          <span class="menu-label">Sikkerhed</span>
+          <div class="menu-chevron"><svg viewBox="0 0 8 14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><polyline points="1,1 7,7 1,13"/></svg></div>
+        </div>
+        <div class="menu-item" onclick="showScreen('s-sprog')">
+          <div class="menu-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg></div>
+          <span class="menu-label">Sprog</span>
+          <div class="menu-chevron"><svg viewBox="0 0 8 14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><polyline points="1,1 7,7 1,13"/></svg></div>
+        </div>
+        <div class="menu-item" onclick="showScreen('s-om')">
+          <div class="menu-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="10"/><line x1="12" y1="16" x2="12" y2="12"/><line x1="12" y1="8" x2="12.01" y2="8"/></svg></div>
+          <span class="menu-label">Om</span>
+          <div class="menu-chevron"><svg viewBox="0 0 8 14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><polyline points="1,1 7,7 1,13"/></svg></div>
+        </div>
+        <div class="menu-item" onclick="showScreen('s-hjaelp')">
+          <div class="menu-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="10"/><path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg></div>
+          <span class="menu-label">Hjælp</span>
+          <div class="menu-chevron"><svg viewBox="0 0 8 14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><polyline points="1,1 7,7 1,13"/></svg></div>
+        </div>
       </div>
+      <div style="height:24px"></div>
       <button class="delete-btn" onclick="document.getElementById('deleteModal').classList.add('show')">Slet e-Wallet</button>
       <div class="settings-version">1.10.10 (106)</div>
     </div>
-    <div class="tab-bar"><div class="tab-bar-pill"><div class="tab" onclick="showScreen('s-hjem')">Hjem</div><div class="tab active" onclick="showScreen('s-indstillinger')">Indstillinger</div></div></div>
+    <div class="tab-bar"><div class="tab-bar-pill"><div class="tab" onclick="showScreen('s-hjem')">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
+        Hjem
+      </div>
+      <div class="tab active" onclick="showScreen('s-indstillinger')">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83-2.83l.06-.06A1.65 1.65 0 0 0 4.68 15a1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 2.83-2.83l.06.06A1.65 1.65 0 0 0 9 4.68a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 2.83l-.06.06A1.65 1.65 0 0 0 19.4 9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg>
+        Indstillinger
+      </div></div></div>
   </div>
 
-  <!-- SIKKERHED SCREEN -->
+  <!-- ════ SIKKERHED ════ -->
   <div class="screen" id="s-sikkerhed">
-    <div class="nav-header"><button class="nav-back" onclick="showScreen('s-indstillinger')">Tilbage</button><span class="nav-title">Sikkerhed</span></div>
+    <div class="nav-header"><button class="nav-back" onclick="showScreen('s-indstillinger')"><svg viewBox="0 0 9 15" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><polyline points="8,1 1,7.5 8,14"/></svg> Tilbage</button><span class="nav-title">Sikkerhed</span><div style="width:60px"></div></div>
     <div class="screen-scroll"><div style="padding:4px 16px 20px;">
+      <div style="font-size:14px;color:var(--subtext);margin-bottom:16px;">Rediger dine profiloplysninger som vises på dit ID-kort.</div>
       <div class="photo-upload-section">
-        <div class="photo-upload-preview" id="settingsPhotoPreview">👤<input type="file" id="settingsPhotoInput" accept="image/*" onchange="handleSettingsPhoto(this)"></div>
+        <div class="photo-upload-preview" id="settingsPhotoPreview">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+          <input type="file" id="settingsPhotoInput" accept="image/*" onchange="handleSettingsPhoto(this)">
+        </div>
+        <div style="font-size:13px;color:var(--subtext);">Tap for at skifte profilbillede</div>
       </div>
       <div class="form-group"><label class="form-label">Fulde navn</label><input class="form-input" id="editName" type="text" value="Julie Jensen"></div>
       <div class="form-group"><label class="form-label">Fødselsdag</label><input class="form-input" id="editDob" type="date" value="2006-04-05"></div>
       <div class="form-group"><label class="form-label">Bruger-ID</label><input class="form-input" id="editUserId" type="text" value="DK-2006-JJ-8821"></div>
+      <div style="height:20px"></div>
       <button class="cta-btn" onclick="saveProfile()">Gem ændringer</button>
     </div></div>
+    <div class="tab-bar"><div class="tab-bar-pill"><div class="tab" onclick="showScreen('s-hjem')"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>Hjem</div>
+      <div class="tab active" onclick="showScreen('s-indstillinger')"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83-2.83l.06-.06A1.65 1.65 0 0 0 4.68 15a1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 2.83-2.83l.06.06A1.65 1.65 0 0 0 9 4.68a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 2.83l-.06.06A1.65 1.65 0 0 0 19.4 9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg>Indstillinger</div></div></div>
   </div>
 
+  <!-- ════ SPROG ════ -->
   <div class="screen" id="s-sprog">
-    <div class="nav-header"><button class="nav-back" onclick="showScreen('s-indstillinger')">Tilbage</button></div>
-    <button class="cta-btn" onclick="showScreen('s-indstillinger')">Gem</button>
+    <div class="nav-header"><button class="nav-back" onclick="showScreen('s-indstillinger')"><svg viewBox="0 0 9 15" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><polyline points="8,1 1,7.5 8,14"/></svg> Tilbage</button><span class="nav-title">Sprog</span><div style="width:60px"></div></div>
+    <div class="screen-scroll"><div style="padding:4px 16px 20px;">
+      <div style="font-size:14px;color:var(--subtext);margin-bottom:20px;">Vælg dit foretrukne sprog.</div>
+      <div class="form-group"><label class="form-label">Sprog</label><select class="form-input"><option>🇩🇰 Dansk</option><option>🇬🇧 English</option><option>🇩🇪 Deutsch</option><option>🇸🇪 Svenska</option><option>🇳🇴 Norsk</option></select></div>
+      <div style="height:20px"></div>
+      <button class="cta-btn" onclick="showScreen('s-indstillinger')">Gem</button>
+    </div></div>
+    <div class="tab-bar"><div class="tab-bar-pill"><div class="tab" onclick="showScreen('s-hjem')"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>Hjem</div>
+      <div class="tab active" onclick="showScreen('s-indstillinger')"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83-2.83l.06-.06A1.65 1.65 0 0 0 4.68 15a1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 2.83-2.83l.06.06A1.65 1.65 0 0 0 9 4.68a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 2.83l-.06.06A1.65 1.65 0 0 0 19.4 9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg>Indstillinger</div></div></div>
   </div>
 
+  <!-- ════ OM ════ -->
   <div class="screen" id="s-om">
-    <div class="nav-header"><button class="nav-back" onclick="showScreen('s-indstillinger')">Tilbage</button></div>
-    <div class="info-card"><div class="info-row"><span class="info-key">App navn</span><span class="info-val">e-Boks ID</span></div></div>
+    <div class="nav-header"><button class="nav-back" onclick="showScreen('s-indstillinger')"><svg viewBox="0 0 9 15" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><polyline points="8,1 1,7.5 8,14"/></svg> Tilbage</button><span class="nav-title">Om</span><div style="width:60px"></div></div>
+    <div class="screen-scroll"><div style="padding:4px 16px;">
+      <div class="info-card">
+        <div class="info-row"><span class="info-key">App navn</span><span class="info-val">e-Boks ID</span></div>
+        <div class="info-row"><span class="info-key">Version</span><span class="info-val">1.10.10 (106)</span></div>
+        <div class="info-row"><span class="info-key">Udgiver</span><span class="info-val">e-Boks A/S</span></div>
+        <div class="info-row"><span class="info-key">Powered by</span><span class="info-val">dewa</span></div>
+        <div class="info-row"><span class="info-key">Licens</span><span class="info-val">© 2024 e-Boks</span></div>
+      </div>
+    </div></div>
+    <div class="tab-bar"><div class="tab-bar-pill"><div class="tab" onclick="showScreen('s-hjem')"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>Hjem</div>
+      <div class="tab active" onclick="showScreen('s-indstillinger')"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83-2.83l.06-.06A1.65 1.65 0 0 0 4.68 15a1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 2.83-2.83l.06.06A1.65 1.65 0 0 0 9 4.68a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 2.83l-.06.06A1.65 1.65 0 0 0 19.4 9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg>Indstillinger</div></div></div>
   </div>
 
+  <!-- ════ HJÆLP ════ -->
+  <div class="screen" id="s-hjaelp">
+    <div class="nav-header"><button class="nav-back" onclick="showScreen('s-indstillinger')"><svg viewBox="0 0 9 15" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><polyline points="8,1 1,7.5 8,14"/></svg> Tilbage</button><span class="nav-title">Hjælp</span><div style="width:60px"></div></div>
+    <div class="screen-scroll"><div style="padding:4px 16px;">
+      <div class="menu-group">
+        <div class="menu-item"><div class="menu-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="10"/><path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg></div><span class="menu-label">FAQ</span><div class="menu-chevron"><svg viewBox="0 0 8 14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><polyline points="1,1 7,7 1,13"/></svg></div></div>
+        <div class="menu-item"><div class="menu-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg></div><span class="menu-label">Kontakt support</span><div class="menu-chevron"><svg viewBox="0 0 8 14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><polyline points="1,1 7,7 1,13"/></svg></div></div>
+        <div class="menu-item"><div class="menu-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><rect x="2" y="3" width="20" height="14" rx="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/></svg></div><span class="menu-label">Send fejlrapport</span><div class="menu-chevron"><svg viewBox="0 0 8 14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><polyline points="1,1 7,7 1,13"/></svg></div></div>
+      </div>
+    </div></div>
+    <div class="tab-bar"><div class="tab-bar-pill"><div class="tab" onclick="showScreen('s-hjem')"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>Hjem</div>
+      <div class="tab active" onclick="showScreen('s-indstillinger')"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83-2.83l.06-.06A1.65 1.65 0 0 0 4.68 15a1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 2.83-2.83l.06.06A1.65 1.65 0 0 0 9 4.68a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 2.83l-.06.06A1.65 1.65 0 0 0 19.4 9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg>Indstillinger</div></div></div>
+  </div>
+
+  <!-- DELETE MODAL -->
   <div class="overlay" id="deleteModal">
-    <div class="modal"><button class="modal-btn cancel" onclick="document.getElementById('deleteModal').classList.remove('show')">Annuller</button></div>
+    <div class="modal">
+      <h3>Slet e-Wallet</h3>
+      <p>Er du sikker på, at du vil slette din e-Wallet? Denne handling kan ikke fortrydes.</p>
+      <div class="modal-btns">
+        <button class="modal-btn cancel" onclick="document.getElementById('deleteModal').classList.remove('show')">Annuller</button>
+        <button class="modal-btn danger" onclick="document.getElementById('deleteModal').classList.remove('show');showScreen('s-login')">Slet</button>
+      </div>
+    </div>
   </div>
 
+  <!-- LANDSCAPE FULLSCREEN OVERLAY -->
   <div id="landscapeOverlay" onclick="closeLandscape(event)">
     <button id="landscapeCloseBtn" onclick="closeLandscapeBtn()">✕</button>
-    <div id="landscapeCardWrap"><div id="landscapeCard"></div></div>
+    <div id="landscapeCardWrap">
+      <div id="landscapeCard">
+        <!-- content injected by JS -->
+      </div>
+    </div>
   </div>
+
 </div>
-
-
-    <script>
+<script>
 function tick() {
   const n = new Date();
   document.getElementById('statusTime').textContent =
@@ -459,7 +771,6 @@ function showScreen(id) {
   else { clearInterval(qrTimer); qrTimer = null; }
 }
 
-// PERMANENT DATALAGRING: Indlæser gemt data automatisk, når appen åbnes
 window.addEventListener('DOMContentLoaded', () => {
   if (localStorage.getItem('wName')) {
     const n = localStorage.getItem('wName');
@@ -475,85 +786,258 @@ window.addEventListener('DOMContentLoaded', () => {
     document.getElementById('cardDob').textContent = dt.getDate()+' '+mo[dt.getMonth()]+', '+dt.getFullYear();
   }
   if (localStorage.getItem('wUid')) document.getElementById('editUserId').value = localStorage.getItem('wUid');
-  if (localStorage.getItem('wPhoto')) syncAllPhotos(localStorage.getItem('wPhoto'), false);
+  if (localStorage.getItem('wPhoto')) syncAllPhotos(localStorage.getItem('wPhoto'));
 });
 
+  
 function saveProfile() {
   const name = document.getElementById('editName').value.trim() || 'Julie Jensen';
-  const dob = document.getElementById('editDob').value;
-  const uid = document.getElementById('editUserId').value.trim() || 'DK-2006-JJ-8821';
-  
+  const dob  = document.getElementById('editDob').value;
   document.getElementById('cardName').textContent = name;
   document.getElementById('qrCardName').textContent = name;
-  
   if (dob) {
-    const dt = new Date(dob + 'T00:00:00');
+    const d = new Date(dob + 'T00:00:00');
     const mo = ['Jan','Feb','Mar','Apr','Maj','Jun','Jul','Aug','Sep','Okt','Nov','Dec'];
-    document.getElementById('cardDob').textContent = dt.getDate()+' '+mo[dt.getMonth()]+', '+dt.getFullYear();
+    document.getElementById('cardDob').textContent = d.getDate()+' '+mo[d.getMonth()]+', '+d.getFullYear();
   }
-  window.addEventListener('DOMContentLoaded', () => {
-  if (localStorage.getItem('wName')) {
-    const n = localStorage.getItem('wName');
-    document.getElementById('editName').value = n;
-    document.getElementById('cardName').textContent = n;
-    document.getElementById('qrCardName').textContent = n;
-  }
-  if (localStorage.getItem('wDob')) {
-    const d = localStorage.getItem('wDob');
-    document.getElementById('editDob').value = d;
-    const dt = new Date(d + 'T00:00:00');
-    const mo = ['Jan','Feb','Mar','Apr','Maj','Jun','Jul','Aug','Sep','Okt','Nov','Dec'];
-    document.getElementById('cardDob').textContent = dt.getDate()+' '+mo[dt.getMonth()]+', '+dt.getFullYear();
-  }
-  if (localStorage.getItem('wUid')) document.getElementById('editUserId').value = localStorage.getItem('wUid');
-});
-
-  // LÅSER DATA FAST I TELEFONENS HARDDISK
+  showScreen('s-indstillinger');
+  const name = document.getElementById('editName').value.trim() || 'Julie Jensen';
+  const dob  = document.getElementById('editDob').value;
+  const uid  = document.getElementById('editUserId').value.trim() || 'DK-2006-JJ-8821';
   localStorage.setItem('wName', name);
   localStorage.setItem('wDob', dob);
   localStorage.setItem('wUid', uid);
+}
+function addCard() { alert('Tilføj nyt kort — funktion kommer snart!'); }
 
-  
-  showScreen('s-indstillinger');
+function syncAllPhotos(src) {
+  // e-Boks ID card
+  const d = document.getElementById('cardPhotoDisplay');
+  if (d) { d.innerHTML = '<img src="'+src+'" alt="Foto">'; d.className = ''; }
+  // QR profile
+  const qp = document.getElementById('qrPhotoDisplay');
+  if (qp) { qp.innerHTML = '<img src="'+src+'" alt="Foto" style="width:100%;height:100%;object-fit:cover;display:block;">'; }
+  // Aldersbevis card
+  const ap = document.getElementById('aldersbevisPhotoDisplay');
+  if (ap) { ap.innerHTML = '<img src="'+src+'" alt="Foto" style="width:100%;height:100%;object-fit:cover;display:block;">'; }
+  // Settings preview
+  const sp = document.getElementById('settingsPhotoPreview');
+  if (sp) { sp.innerHTML = '<img src="'+src+'" alt="Foto"><input type="file" id="settingsPhotoInput" accept="image/*" onchange="handleSettingsPhoto(this)">'; }
+  localStorage.setItem('wPhoto', src);
 }
 
-function syncAllPhotos(src, save = true) {
-  const d = document.getElementById('cardPhotoDisplay'); if (d) d.innerHTML = '<img src="'+src+'" style="width:100%;height:100%;object-fit:cover;">';
-  const qp = document.getElementById('qrPhotoDisplay'); if (qp) qp.innerHTML = '<img src="'+src+'" style="width:100%;height:100%;object-fit:cover;">';
-  const ap = document.getElementById('aldersbevisPhotoDisplay'); if (ap) ap.innerHTML = '<img src="'+src+'" style="width:100%;height:100%;object-fit:cover;">';
-  const sp = document.getElementById('settingsPhotoPreview'); if (sp) sp.innerHTML = '<img src="'+src+'" style="width:100%;height:100%;object-fit:cover;"><input type="file" id="settingsPhotoInput" accept="image/*" onchange="handleSettingsPhoto(this)">';
-  
-  if (save) localStorage.setItem('wPhoto', src);
+function handlePhotoUpload(input) {
+  if (!input.files || !input.files[0]) return;
+  const reader = new FileReader();
+  reader.onload = function(e) { syncAllPhotos(e.target.result); };
+  reader.readAsDataURL(input.files[0]);
+}
+function handleSettingsPhoto(input) {
+  if (!input.files || !input.files[0]) return;
+  const reader = new FileReader();
+  reader.onload = function(e) { syncAllPhotos(e.target.result); };
+  reader.readAsDataURL(input.files[0]);
+}
+function syncSettingsPreview(src) {
+  syncAllPhotos(src);
 }
 
-function handlePhotoUpload(i) { if (i.files && i.files[0]) { const r = new FileReader(); r.onload = function(e) { syncAllPhotos(e.target.result); }; r.readAsDataURL(i.files[0]); } }
-function handleSettingsPhoto(i) { if (i.files && i.files[0]) { const r = new FileReader(); r.onload = function(e) { syncAllPhotos(e.target.result); }; r.readAsDataURL(i.files[0]); } }
-function addCard() { alert('Funktion kommer snart!'); }
+// ═══════════════════════════════════════════════════
+//  QR CODE — Version 10, 57×57 modules
+//  High density matching ref image 2
+// ═══════════════════════════════════════════════════
+const N=57, S=350, C=S/N;
+
+function rng32(seed){
+  return function(){
+    seed=(seed+0x6D2B79F5)|0;
+    let t=Math.imul(seed^(seed>>>15),1|seed);
+    t=(t+Math.imul(t^(t>>>7),61|t))^t;
+    return((t^(t>>>14))>>>0)/4294967296;
+  };
+}
+
+function buildQR(rand){
+  const m=Array.from({length:N},()=>new Uint8Array(N));
+  const fx=Array.from({length:N},()=>new Uint8Array(N));
+
+  function finder(r0,c0){
+    for(let r=0;r<7;r++) for(let c=0;c<7;c++){
+      const v=(r===0||r===6||c===0||c===6)||(r>=2&&r<=4&&c>=2&&c<=4)?1:0;
+      m[r0+r][c0+c]=v; fx[r0+r][c0+c]=1;
+    }
+  }
+  finder(0,0); finder(0,N-7); finder(N-7,0);
+
+  function sep(r,c){if(r>=0&&r<N&&c>=0&&c<N){m[r][c]=0;fx[r][c]=1;}}
+  for(let i=0;i<8;i++){sep(7,i);sep(i,7);sep(7,N-1-i);sep(i,N-8);sep(N-8,i);sep(N-1-i,7);}
+
+  for(let i=8;i<N-8;i++){m[6][i]=i%2===0?1:0;fx[6][i]=1;m[i][6]=i%2===0?1:0;fx[i][6]=1;}
+
+  // Alignment patterns for version 10
+  const ap=[6,28,50];
+  for(let ai=0;ai<ap.length;ai++) for(let aj=0;aj<ap.length;aj++){
+    const pr=ap[ai],pc=ap[aj];
+    if((pr===6&&pc===6)||(pr===6&&pc===50)||(pr===50&&pc===6)) continue;
+    for(let r=-2;r<=2;r++) for(let c=-2;c<=2;c++){
+      const pr2=pr+r,pc2=pc+c;
+      if(pr2>=0&&pr2<N&&pc2>=0&&pc2<N){
+        const v=(Math.abs(r)===2||Math.abs(c)===2)||(r===0&&c===0)?1:0;
+        m[pr2][pc2]=v; fx[pr2][pc2]=1;
+      }
+    }
+  }
+
+  m[8][N-8]=1; fx[8][N-8]=1;
+  for(let i=0;i<9;i++){fx[8][i]=1;fx[i][8]=1;}
+  for(let i=0;i<8;i++){fx[8][N-1-i]=1;fx[N-1-i][8]=1;}
+
+  for(let r=0;r<N;r++) for(let c=0;c<N;c++)
+    if(!fx[r][c]) m[r][c]=rand()>0.48?1:0;
+
+  return m;
+}
 
 function drawQr(){
-  const canvas=document.getElementById('qrCanvas'); if(!canvas) return;
-  const ctx=canvas.getContext('2d'); ctx.fillStyle='#fff'; ctx.fillRect(0,0,350,350); ctx.fillStyle='#000';
-  for(let i=0;i<57;i++) for(let j=0;j<57;j++) if((i+j)%2===0) ctx.fillRect(j*6,i*6,5,5);
+  const canvas=document.getElementById('qrCanvas');
+  if(!canvas) return;
+  const ctx=canvas.getContext('2d');
+  const seed=Math.floor(Date.now()/300)*7919+104729;
+  const m=buildQR(rng32(seed));
+  ctx.fillStyle='#fff'; ctx.fillRect(0,0,S,S); ctx.fillStyle='#000';
+  for(let row=0;row<N;row++) for(let col=0;col<N;col++){
+    if(!m[row][col]) continue;
+    ctx.fillRect(col*C+0.2, row*C+0.2, C-0.4, C-0.4);
+  }
+}
+drawQr();
+
+// Carousel swipe — smooth spring physics
+// ── LANDSCAPE FULLSCREEN ──
+function openLandscape(slideIndex) {
+  var slides = document.querySelectorAll('#carouselTrack > div');
+  if (!slides[slideIndex]) return;
+  var cardEl = slides[slideIndex].querySelector('.id-card');
+  if (!cardEl) return;
+
+  var lCard = document.getElementById('landscapeCard');
+  lCard.innerHTML = cardEl.innerHTML;
+  lCard.style.cssText = cardEl.getAttribute('style') || '';
+  lCard.className = cardEl.className;
+  lCard.id = 'landscapeCard';
+
+  document.getElementById('landscapeOverlay').classList.add('show');
 }
 
-function openLandscape(idx) {
-  var slides = document.querySelectorAll('#carouselTrack > div'); if (!slides[idx]) return;
-  var cardEl = slides[idx].querySelector('.id-card'); if (!cardEl) return;
-  var lCard = document.getElementById('landscapeCard'); lCard.innerHTML = cardEl.innerHTML;
-  lCard.className = cardEl.className; document.getElementById('landscapeOverlay').classList.add('show');
+function closeLandscapeBtn() {
+  document.getElementById('landscapeOverlay').classList.remove('show');
 }
-function closeLandscapeBtn() { document.getElementById('landscapeOverlay').classList.remove('show'); }
-function closeLandscape(e) { if (e.target === document.getElementById('landscapeOverlay')) closeLandscapeBtn(); }
+function closeLandscape(e) {
+  if (e.target === document.getElementById('landscapeOverlay')) closeLandscapeBtn();
+}
 
+// (card clicks disabled — use Vandret visning button instead)
+(function attachCardClicks() {
+  // clicks handled via menu button now
+})();
+
+// Carousel swipe — smooth spring physics (original comment removed above)
 var carouselCurrent = 0;
 var carouselTrack = document.getElementById('carouselTrack');
 var carouselOuter = document.getElementById('carouselOuter');
-var carouselDots = [document.getElementById('dot0'), document.getElementById('dot1')];
-function carouselGoTo(idx) { carouselCurrent = Math.max(0, Math.min(1, idx)); carouselTrack.style.transform = 'translateX(-' + (carouselCurrent * 100) + '%)'; carouselDots.forEach((d, i) => d.classList.toggle('active', i === carouselCurrent)); }
+var carouselDots  = [document.getElementById('dot0'), document.getElementById('dot1')];
 
-var cStartX = 0, cDragging = false;
-carouselOuter.addEventListener('touchstart', (e) => { cStartX = e.touches.clientX; cDragging = true; }, {passive:true});
-carouselOuter.addEventListener('touchend', (e) => { if (!cDragging) return; cDragging = false; var dx = e.changedTouches.clientX - cStartX; if (Math.abs(dx) > 50) carouselGoTo(dx < 0 ? carouselCurrent + 1 : carouselCurrent - 1); }, {passive:true});
+// Use CSS transition with spring-like easing
+carouselTrack.style.transition = 'transform 0.42s cubic-bezier(0.25, 0.46, 0.45, 0.94)';
+
+function carouselGoTo(idx) {
+  carouselCurrent = Math.max(0, Math.min(1, idx));
+  carouselTrack.style.transition = 'transform 0.42s cubic-bezier(0.25, 0.46, 0.45, 0.94)';
+  carouselTrack.style.transform = 'translateX(-' + (carouselCurrent * 100) + '%)';
+  carouselDots.forEach(function(d, i){ d.classList.toggle('active', i === carouselCurrent); });
+}
+
+var cStartX = 0, cStartY = 0, cLastX = 0, cLastT = 0;
+var cDragging = false, cLocked = false, cMovedH = false;
+
+carouselOuter.addEventListener('touchstart', function(e){
+  cStartX = cLastX = e.touches[0].clientX;
+  cStartY = e.touches[0].clientY;
+  cLastT = Date.now();
+  cDragging = true; cLocked = false; cMovedH = false;
+  carouselTrack.style.transition = 'none';
+}, {passive:true});
+
+carouselOuter.addEventListener('touchmove', function(e){
+  if (!cDragging) return;
+  var dx = e.touches[0].clientX - cStartX;
+  var dy = e.touches[0].clientY - cStartY;
+  if (!cLocked) {
+    if (Math.abs(dx) > Math.abs(dy) && Math.abs(dx) > 6) { cMovedH = true; cLocked = true; }
+    else if (Math.abs(dy) > Math.abs(dx) && Math.abs(dy) > 6) { cLocked = true; }
+  }
+  if (cMovedH) {
+    cLastX = e.touches[0].clientX;
+    cLastT = Date.now();
+    // Rubber band at edges
+    var raw = carouselCurrent * 100 - dx / carouselOuter.offsetWidth * 100;
+    var w = carouselOuter.offsetWidth;
+    var pct = carouselCurrent * 100 - dx / w * 100;
+    if (pct < 0) pct = pct * 0.25;
+    if (pct > 100) pct = 100 + (pct - 100) * 0.25;
+    carouselTrack.style.transform = 'translateX(-' + pct + '%)';
+  }
+}, {passive:true});
+
+carouselOuter.addEventListener('touchend', function(e){
+  if (!cDragging) return;
+  cDragging = false;
+  var dx = e.changedTouches[0].clientX - cStartX;
+  var dt = Date.now() - cLastT;
+  var velocity = dt < 200 ? (e.changedTouches[0].clientX - cLastX) / dt : 0;
+  var threshold = carouselOuter.offsetWidth * 0.25;
+  var flick = Math.abs(velocity) > 0.3;
+  var next = carouselCurrent;
+  if (cMovedH) {
+    if (flick || Math.abs(dx) > threshold) next = dx < 0 ? carouselCurrent + 1 : carouselCurrent - 1;
+  }
+  carouselGoTo(next);
+}, {passive:true});
+
+// Mouse support
+var mStart = 0, mLastX = 0, mLastT = 0, mDown = false, mMovedH = false, mLocked = false, mStartY = 0;
+carouselOuter.addEventListener('mousedown', function(e){
+  mStart = mLastX = e.clientX; mStartY = e.clientY;
+  mLastT = Date.now(); mDown = true; mMovedH = false; mLocked = false;
+  carouselTrack.style.transition = 'none';
+  e.preventDefault();
+});
+document.addEventListener('mousemove', function(e){
+  if (!mDown) return;
+  var dx = e.clientX - mStart, dy = e.clientY - mStartY;
+  if (!mLocked) {
+    if (Math.abs(dx) > Math.abs(dy) && Math.abs(dx) > 6) { mMovedH = true; mLocked = true; }
+    else if (Math.abs(dy) > 6) { mLocked = true; }
+  }
+  if (mMovedH) {
+    mLastX = e.clientX; mLastT = Date.now();
+    var pct = carouselCurrent * 100 - dx / carouselOuter.offsetWidth * 100;
+    if (pct < 0) pct = pct * 0.25;
+    if (pct > 100) pct = 100 + (pct - 100) * 0.25;
+    carouselTrack.style.transform = 'translateX(-' + pct + '%)';
+  }
+});
+document.addEventListener('mouseup', function(e){
+  if (!mDown) return; mDown = false;
+  var dx = e.clientX - mStart;
+  var dt = Date.now() - mLastT;
+  var velocity = dt < 200 ? (e.clientX - mLastX) / dt : 0;
+  var threshold = carouselOuter.offsetWidth * 0.25;
+  var flick = Math.abs(velocity) > 0.3;
+  var next = carouselCurrent;
+  if (mMovedH && (flick || Math.abs(dx) > threshold)) next = dx < 0 ? carouselCurrent + 1 : carouselCurrent - 1;
+  carouselGoTo(next);
+});
 </script>
 </body>
 </html>
