@@ -1,25 +1,542 @@
 <!DOCTYPE html>
 <html lang="da">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>e-Boks ID</title>
-    <script>
-        // Denne kode henter dit originale design 1:1, men tilføjer permanent hukommelse
-        window.addEventListener('DOMContentLoaded', () => {
-            fetch('https://githubusercontent.com')
-                .then(response => response.text())
-                .then(html => {
-                    // Vi indsprøjter det originale design direkte, så det ligner sig selv 100%
-                    document.open();
-                    document.write(html);
-                    document.close();
-                }).catch(() => {
-                    document.body.innerHTML = '<p style="padding:20px;font-family:sans-serif;color:#1c1c1e;">Forbinder til appen... Tjek dit netværk.</p>';
-                });
-        });
-    </script>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>e-Boks ID</title>
+<style>
+* { box-sizing: border-box; margin: 0; padding: 0; -webkit-tap-highlight-color: transparent; }
+
+:root {
+  --crimson: #C8103E;
+  --crimson-dark: #A00D32;
+  --bg: #F2F2F7;
+  --text: #1C1C1E;
+  --subtext: #6C6C70;
+  --border: #E5E5EA;
+}
+
+html, body {
+  height: 100%; width: 100%;
+  font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Text', 'Helvetica Neue', sans-serif;
+  background: var(--bg);
+  overflow: hidden;
+}
+
+.phone {
+  width: 100%; height: 100%;
+  background: var(--bg); overflow: hidden; position: relative;
+  display: flex; flex-direction: column;
+}
+
+.dynamic-island { display: none; }
+
+.status-bar { display: none; }
+.status-left { display:none; }
+.status-time { display:none; }
+.status-icons { display: none; }
+
+.screen {
+  display: none; flex-direction: column; flex: 1; overflow: hidden;
+  background: var(--bg); animation: fadeIn 0.18s ease;
+}
+.screen.active { display: flex; }
+@keyframes fadeIn { from{opacity:0;transform:translateX(5px)} to{opacity:1;transform:none} }
+
+    .screen-scroll {
+  flex: 1; overflow-y: auto; overflow-x: hidden;
+  scrollbar-width: none; -webkit-overflow-scrolling: touch;
+}
+.screen-scroll::-webkit-scrollbar { display: none; }
+
+.nav-header {
+  display: flex; justify-content: space-between; align-items: center;
+  padding: 4px 20px 8px; flex-shrink: 0;
+  border-radius: 0;
+}
+#s-hjem > .nav-header {
+  border-radius: 0;
+}
+.nav-title { font-size: 17px; font-weight: 600; color: var(--text); }
+.nav-back {
+  display: flex; align-items: center; gap: 4px;
+  color: var(--crimson); font-size: 17px; cursor: pointer;
+  background: none; border: none; padding: 4px 0;
+}
+.nav-back svg { width: 9px; height: 15px; }
+.page-title { font-size: 34px; font-weight: 800; color: var(--text); padding: 2px 20px 14px; }
+
+.tab-bar {
+  display: flex;
+  background: transparent;
+  border-top: none;
+  padding: 0 16px max(28px, env(safe-area-inset-bottom));
+  flex-shrink: 0;
+  justify-content: center;
+}
+.tab-bar-pill {
+  display: flex;
+  background: #EBEBF0;
+  border-radius: 50px;
+  padding: 5px;
+  gap: 4px;
+  box-shadow: 0 2px 12px rgba(0,0,0,0.10);
+}
+.tab {
+  display: flex; flex-direction: column; align-items: center;
+  gap: 2px; cursor: pointer; transition: color 0.12s;
+  color: #8A8A8E; font-size: 10px; font-weight: 500;
+  padding: 8px 28px 6px; border-radius: 44px;
+}
+.tab.active {
+  background: #FFFFFF;
+  color: var(--crimson);
+  box-shadow: 0 1px 4px rgba(0,0,0,0.12);
+}
+.tab svg { width: 24px; height: 24px; }
+
+.id-card-wrap { margin: 0 16px 8px; }
+
+.id-card {
+  width: 100%;
+  aspect-ratio: 85.6 / 54;
+  border-radius: 18px; overflow: hidden; position: relative;
+  background: linear-gradient(138deg,
+    #E5175A 0%,
+    #C8103E 28%,
+    #A00D32 58%,
+    #750920 100%
+  );
+  box-shadow: 0 14px 40px rgba(180,10,50,0.48), 0 3px 10px rgba(0,0,0,0.14);
+  color: white; cursor: default; user-select: none; -webkit-user-select: none;
+}
+
+    .id-card::before {
+  content: ''; position: absolute; inset: 0; z-index: 0;
+  background-image:
+    linear-gradient(rgba(255,255,255,0.09) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255,255,255,0.09) 1px, transparent 1px);
+  background-size: 11px 11px;
+}
+
+.card-radial {
+  position: absolute; inset: 0; z-index: 1; pointer-events: none;
+  background: radial-gradient(ellipse at 22% 16%,
+    rgba(255,255,255,0.24) 0%,
+    rgba(255,255,255,0.06) 36%,
+    transparent 60%
+  );
+}
+
+@keyframes cardShimmer {
+  0%   { transform: translateX(-230%) skewX(-18deg); opacity: 0; }
+  5%   { opacity: 1; }
+  30%  { transform: translateX(290%) skewX(-18deg); opacity: 0; }
+  100% { transform: translateX(290%) skewX(-18deg); opacity: 0; }
+}
+.card-shimmer { position: absolute; inset: 0; z-index: 2; overflow: hidden; pointer-events: none; }
+.card-shimmer::after {
+  content: ''; position: absolute; top: -15%; left: 0;
+  width: 42%; height: 130%;
+  background: linear-gradient(90deg,
+    transparent 0%,
+    rgba(255,255,255,0.04) 18%,
+    rgba(255,255,255,0.24) 50%,
+    rgba(255,255,255,0.04) 82%,
+    transparent 100%
+  );
+  animation: cardShimmer 2.4s ease-in-out infinite;
+}
+
+.card-inner {
+  position: absolute; inset: 0; z-index: 3;
+  padding: 13px 15px 11px;
+  display: flex; flex-direction: column;
+}
+
+.card-header { display: flex; justify-content: space-between; align-items: center; }
+
+.card-logo-pill {
+  display: flex; align-items: center; gap: 8px;
+  background: none; padding: 0;
+}
+.eboks-icon {
+  width: 32px; height: 32px; background: white; border-radius: 7px;
+  display: flex; align-items: center; justify-content: center; flex-shrink: 0;
+}
+.eboks-e {
+  font-size: 22px; font-weight: 900; color: var(--crimson); font-style: normal;
+  line-height: 1; font-family: -apple-system, BlinkMacSystemFont, 'Helvetica Neue', sans-serif;
+  margin-top: 1px;
+}
+.card-logo-text { font-size: 16px; font-weight: 800; color: white; letter-spacing: -0.2px; }
+.card-type { font-size: 15px; font-weight: 700; color: white; letter-spacing: -0.1px; }
+
+.card-body { display: flex; align-items: center; gap: 13px; flex: 1; margin-top: 8px; }
+
+.card-photo {
+  width: 66px; height: 80px; border-radius: 6px; overflow: hidden;
+  background: #CDA09C; flex-shrink: 0;
+  border: none;
+  cursor: pointer; position: relative;
+}
+.card-photo img { width: 100%; height: 100%; object-fit: cover; object-position: center top; display: block; }
+.card-photo-placeholder { width: 100%; height: 100%; display: flex; align-items: center; justify-content: center; }
+.card-photo input[type=file] { position: absolute; inset: 0; opacity: 0; cursor: pointer; }
+
+.card-text { flex: 1; display: flex; flex-direction: column; justify-content: center; }
+.card-fl { font-size: 10px; color: rgba(255,255,255,0.62); margin-bottom: 1px; font-weight: 400; }
+.card-name { font-size: 17px; font-weight: 700; line-height: 1.1; margin-bottom: 9px; }
+.card-dob  { font-size: 14px; font-weight: 500; }
+.card-footer { display: flex; justify-content: flex-end; margin-top: auto; }
+.card-age { font-size: 36px; font-weight: 800; color: rgba(255,255,255,0.92); line-height: 1; letter-spacing: -1px; }
+
+.dots { display:flex; gap:6px; justify-content:center; margin:6px 0 12px; }
+.dot { width:7px; height:7px; border-radius:50%; background:rgba(0,0,0,0.14); }
+.dot.active { background:rgba(0,0,0,0.32); }
+
+.menu-group { background:white; border-radius:14px; margin:0 16px 10px; overflow:hidden; }
+.menu-item {
+  display:flex; align-items:center; gap:14px; padding:14px 16px; cursor:pointer;
+  border-bottom:0.5px solid var(--border); transition:background 0.1s;
+}
+.menu-item:last-child { border-bottom:none; }
+.menu-item:active { background:rgba(0,0,0,0.03); }
+.menu-icon { width:24px; display:flex; align-items:center; justify-content:center; color:var(--crimson); flex-shrink:0; }
+.menu-icon svg { width:21px; height:21px; }
+.menu-label { font-size:16px; color:var(--text); flex:1; font-weight:400; }
+.menu-chevron svg { width:7px; height:12px; color:#C7C7CC; }
+
+.cta-btn {
+  display:flex; align-items:center; justify-content:center; gap:10px;
+  background:var(--crimson); color:white; border:none; border-radius:14px;
+  padding:17px; font-size:17px; font-weight:600; cursor:pointer; width:100%;
+  transition:background 0.15s, transform 0.1s;
+}
+.cta-btn:active { background:var(--crimson-dark); transform:scale(0.98); }
+.log-af-btn { background:rgba(200,16,62,0.09); color:var(--crimson); border:none; border-radius:20px; padding:8px 18px; font-size:15px; font-weight:500; cursor:pointer; }
+.delete-btn { display:block; margin:0 auto; background:rgba(0,0,0,0.06); color:var(--text); border:none; border-radius:22px; padding:13px 32px; font-size:15px; font-weight:600; cursor:pointer; }
+
+.nav-action-btn {
+  width: 40px; height: 36px;
+  display: flex; align-items: center; justify-content: center;
+  cursor: pointer; background: white; color: var(--crimson);
+  padding: 0 10px;
+}
+.nav-action-btn:active { background: rgba(200,16,62,0.06); }
+.nav-action-btn svg { width: 19px; height: 19px; }
+
+.qr-wrap {
+  background:white; border-radius:16px; padding:14px;
+  margin:0 16px 14px;
+  display:flex; align-items:center; justify-content:center;
+  box-shadow:0 2px 12px rgba(0,0,0,0.07);
+}
+canvas#qrCanvas { width:100%; max-width:290px; height:auto; aspect-ratio:1; image-rendering:pixelated; display:block; }
+
+
+    <style>
+.toggle-list { background:white; border-radius:14px; margin:0 16px; overflow:hidden; }
+.toggle-row { display:flex; align-items:center; justify-content:space-between; padding:14px 16px; border-bottom:0.5px solid var(--border); }
+.toggle-row:last-child { border-bottom:none; }
+.toggle-label { font-size:16px; color:var(--text); }
+.toggle-sw { width:51px; height:31px; border-radius:16px; position:relative; cursor:pointer; border:none; transition:background 0.2s; flex-shrink:0; background:var(--crimson); }
+.toggle-sw.off { background:#E5E5EA; }
+.toggle-sw::after { content:''; position:absolute; top:2.5px; right:2.5px; width:26px; height:26px; background:white; border-radius:50%; box-shadow:0 2px 5px rgba(0,0,0,0.25); transition:transform 0.2s; }
+.toggle-sw.off::after { transform:translateX(-20px); }
+
+.login-wrap { flex:1; display:flex; align-items:center; justify-content:center; background:#F8F0F2; }
+.login-icon { width:180px; height:180px; position:relative; display:flex; align-items:center; justify-content:center; }
+.ripple-ring { position:absolute; border-radius:50%; background:rgba(200,16,62,0.10); animation:rp 2.2s ease-in-out infinite; }
+.r1{width:180px;height:180px;} .r2{width:148px;height:148px;animation-delay:0.4s;background:rgba(200,16,62,0.14);}
+@keyframes rp{0%,100%{transform:scale(0.94);opacity:.6}50%{transform:scale(1.06);opacity:1}}
+.login-circle{width:100px;height:100px;background:var(--crimson);border-radius:50%;display:flex;align-items:center;justify-content:center;box-shadow:0 8px 28px rgba(200,16,62,0.4);z-index:1;}
+.powered-by{display:flex;align-items:center;justify-content:center;gap:5px;font-size:12px;color:var(--subtext);margin-top:10px;}
+.powered-dot{width:20px;height:20px;border-radius:5px;background:linear-gradient(135deg,#6B7AE8,#C084FC);display:flex;align-items:center;justify-content:center;font-size:9px;color:white;font-weight:900;}
+
+.form-group{margin-bottom:12px;}
+.form-label{font-size:12px;font-weight:600;color:var(--subtext);text-transform:uppercase;letter-spacing:0.5px;margin-bottom:6px;padding-left:4px;display:block;}
+.form-input{width:100%;background:white;border:1px solid var(--border);border-radius:12px;padding:14px 16px;font-size:16px;color:var(--text);outline:none;font-family:inherit;transition:border-color 0.15s;}
+.form-input:focus{border-color:var(--crimson);}
+select.form-input{appearance:none;-webkit-appearance:none;cursor:pointer;}
+.info-card{background:white;border-radius:14px;padding:16px;margin:0 16px 12px;}
+.info-row{display:flex;justify-content:space-between;align-items:center;padding:8px 0;border-bottom:0.5px solid var(--border);}
+.info-row:last-child{border-bottom:none;}
+.info-key{font-size:14px;color:var(--subtext);}
+.info-val{font-size:14px;font-weight:500;color:var(--text);}
+.settings-version{text-align:center;font-size:14px;color:var(--subtext);padding:30px 0 10px;}
+
+.overlay{position:absolute;inset:0;background:rgba(0,0,0,0.38);display:none;align-items:center;justify-content:center;z-index:100;backdrop-filter:blur(4px);}
+.overlay.show{display:flex;}
+.modal{background:white;border-radius:20px;padding:28px 24px 20px;margin:20px;width:100%;max-width:320px;text-align:center;}
+.modal h3{font-size:18px;font-weight:700;color:var(--text);margin-bottom:10px;}
+.modal p{font-size:14px;color:var(--subtext);line-height:1.5;margin-bottom:22px;}
+.modal-btns{display:flex;gap:10px;}
+.modal-btn{flex:1;padding:13px;border-radius:12px;border:none;font-size:15px;font-weight:600;cursor:pointer;}
+.modal-btn.cancel{background:var(--bg);color:var(--text);}
+.modal-btn.danger{background:var(--crimson);color:white;}
+
+.photo-upload-section{background:white;border-radius:14px;margin:0 16px 12px;padding:16px;display:flex;flex-direction:column;align-items:center;gap:10px;}
+.photo-upload-preview{width:80px;height:96px;border-radius:8px;overflow:hidden;background:#F0E8EA;display:flex;align-items:center;justify-content:center;border:2px dashed rgba(200,16,62,0.3);position:relative;cursor:pointer;}
+.photo-upload-preview img{width:100%;height:100%;object-fit:cover;display:block;}
+.photo-upload-preview input[type=file]{position:absolute;inset:0;opacity:0;cursor:pointer;}
+.photo-upload-preview svg{width:32px;height:32px;color:var(--crimson);opacity:0.6;}
+</style>
 </head>
-<body style="background:#F2F2F7;margin:0;">
+<body>
+<div class="phone">
+  <div class="dynamic-island"></div>
+
+  <div class="status-bar">
+    <div class="status-left"><span class="status-time" id="statusTime">17:09</span></div>
+    <div class="status-icons">
+      <svg width="17" height="12" viewBox="0 0 17 12" fill="currentColor"><rect x="0" y="8" width="3" height="4" rx="0.7"/><rect x="4.5" y="5" width="3" height="7" rx="0.7"/><rect x="9" y="2" width="3" height="10" rx="0.7"/><rect x="13.5" y="0" width="3" height="12" rx="0.7" opacity="0.28"/></svg>
+      <svg width="16" height="12" viewBox="0 0 16 12" fill="none"><path d="M0.8 4.2C3.8 1.2 12.2 1.2 15.2 4.2" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/><path d="M3 6.8c1.4-1.4 9.6-1.4 11 0" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/><path d="M5.5 9.4c1.4-1.4 4.6-1.4 6 0" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/><circle cx="8" cy="11.4" r="1.2" fill="currentColor"/></svg>
+      <svg width="28" height="13" viewBox="0 0 28 13" fill="none"><rect x="0.5" y="0.5" width="23" height="12" rx="3.5" stroke="currentColor" stroke-opacity="0.35"/><rect x="2" y="2" width="19" height="9" rx="2" fill="#34C759"/><path d="M26 4.5v4a2 2 0 0 0 0-4z" fill="currentColor" fill-opacity="0.4"/><path d="M12 3L10 6.5h2.5L10.5 10" stroke="white" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"/></svg>
+    </div>
+  </div>
+
+      <!-- HJEM SCREEN -->
+  <div class="screen active" id="s-hjem">
+    <div class="nav-header">
+      <span></span>
+      <div style="display:flex;align-items:center;border:1.5px solid #D8D8DC;border-radius:50px;background:white;overflow:hidden;">
+        <div class="nav-action-btn" onclick="addCard()" style="border:none;border-radius:0;border-right:1.5px solid #D8D8DC;padding:0 13px;">
+          <svg width="20" height="20" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><circle cx="10" cy="10" r="8.5"/><line x1="10" y1="6" x2="10" y2="14"/><line x1="6" y1="10" x2="14" y2="10"/></svg>
+        </div>
+        <div class="nav-action-btn" onclick="showScreen('s-qr')" style="border:none;border-radius:0;padding:0 13px;">
+          <svg width="20" height="20" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2 7V2h5"/><path d="M13 2h5v5"/><path d="M2 13v5h5"/><path d="M18 13v5h-5"/><rect x="4.5" y="4.5" width="4" height="4" rx="0.5"/><rect x="11.5" y="4.5" width="4" height="4" rx="0.5"/><rect x="4.5" y="11.5" width="4" height="4" rx="0.5"/></svg>
+        </div>
+      </div>
+    </div>
+    <div class="screen-scroll">
+      <div class="page-title">Hjem</div>
+      <div style="margin:0 16px 8px; overflow:hidden; border-radius:18px;" id="carouselOuter">
+        <div id="carouselTrack" style="display:flex; transition:transform 0.35s cubic-bezier(0.4,0,0.2,1);">
+          <div style="flex:0 0 100%; width:100%;">
+            <div class="id-card">
+              <div class="card-radial"></div>
+              <div class="card-shimmer"></div>
+              <div class="card-inner">
+                <div class="card-header">
+                  <div class="card-logo-pill">
+                    <div class="eboks-icon"><span class="eboks-e">e</span></div>
+                    <span class="card-logo-text">Boks</span>
+                  </div>
+                  <span class="card-type">e-Boks ID</span>
+                </div>
+                <div class="card-body">
+                  <div class="card-photo" onclick="document.getElementById('cardPhotoInput').click()">
+                    <div id="cardPhotoDisplay" class="card-photo-placeholder">👤</div>
+                    <input type="file" id="cardPhotoInput" accept="image/*" onchange="handlePhotoUpload(this)">
+                  </div>
+                  <div class="card-text">
+                    <div class="card-fl">Navn</div>
+                    <div class="card-name" id="cardName">Julie Jensen</div>
+                    <div class="card-fl">Fødselsdag</div>
+                    <div class="card-dob" id="cardDob">5 Apr, 2006</div>
+                  </div>
+                </div>
+                <div class="card-footer"><div class="card-age">18+</div></div>
+              </div>
+            </div>
+          </div>
+          <div style="flex:0 0 100%; width:100%;">
+            <div class="id-card" style="background:linear-gradient(138deg,#2E7A87 0%,#1F6370 28%,#174F5A 58%,#0F3845 100%);">
+              <div class="card-radial"></div>
+              <div class="card-shimmer"></div>
+              <div class="card-inner" style="display:flex;flex-direction:column;justify-content:space-between;">
+                <div class="card-header">
+                  <div class="card-logo-pill">
+                    <div class="eboks-icon"><span class="eboks-e" style="color:#1F6370;">e</span></div>
+                    <span class="card-logo-text">Boks</span>
+                  </div>
+                  <span class="card-type">Aldersbevis</span>
+                </div>
+                <div style="position:relative;flex:1;margin-top:6px;display:flex;align-items:center;">
+                  <div id="aldersbevisPhotoDisplay" style="width:80px;height:100px;border-radius:7px;overflow:hidden;background:#7AAAB5;">👤</div>
+                  <div style="position:absolute;left:80px;right:0;display:flex;align-items:center;justify-content:center;height:100%;"><span style="font-size:61px;font-weight:800;color:rgba(255,255,255,0.95);">18+</span></div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="dots"><div class="dot active" id="dot0"></div><div class="dot" id="dot1"></div></div>
+      <div class="menu-group">
+        <div class="menu-item" onclick="openLandscape(carouselCurrent)"><span class="menu-label">Vandret visning</span></div>
+        <div class="menu-item" onclick="showScreen('s-qr')"><span class="menu-label">Vis QR-kode</span></div>
+      </div>
+    </div>
+    <div class="tab-bar"><div class="tab-bar-pill"><div class="tab active" onclick="showScreen('s-hjem')">Hjem</div><div class="tab" onclick="showScreen('s-indstillinger')">Indstillinger</div></div></div>
+  </div>
+
+  <!-- QR SCREEN -->
+  <div class="screen" id="s-qr">
+    <div class="nav-header" style="padding-top:6px;"><button class="nav-back" onclick="showScreen('s-hjem')">Tilbage</button><span class="nav-title">Detaljer</span><span style="width:40px;"></span></div>
+    <div class="screen-scroll">
+      <div style="background:white;border-radius:18px;margin:8px 16px 12px;padding:24px 18px 0;display:flex;flex-direction:column;align-items:center;">
+        <div id="qrPhotoDisplay" style="width:140px;height:170px;border-radius:10px;overflow:hidden;background:#D0D0D5;margin-bottom:14px;">👤</div>
+        <div id="qrCardName" style="font-size:20px;font-weight:700;color:#1C1C1E;margin-bottom:4px;">Julie Jensen</div>
+        <div style="font-size:14px;color:#8E8E93;margin-bottom:20px;">e-Boks ID</div>
+      </div>
+      <div class="qr-wrap"><canvas id="qrCanvas" width="350" height="350"></canvas></div>
+    </div>
+    <div class="tab-bar"><div class="tab-bar-pill"><div class="tab" onclick="showScreen('s-hjem')">Hjem</div><div class="tab" onclick="showScreen('s-indstillinger')">Indstillinger</div></div></div>
+  </div>
+
+
+      <!-- LOGIN SCREEN -->
+  <div class="screen" id="s-login">
+    <div class="login-wrap"><div class="login-circle"><span style="font-size:52px;color:white;">e</span></div></div>
+    <div style="padding:0 20px 28px;background:#F8F0F2;"><button class="cta-btn" onclick="showScreen('s-hjem')">Log på</button></div>
+  </div>
+
+  <!-- INDSTILLINGER SCREEN -->
+  <div class="screen" id="s-indstillinger">
+    <div class="nav-header"><span></span><button class="log-af-btn" onclick="showScreen('s-login')">Log af</button></div>
+    <div class="screen-scroll">
+      <div class="page-title">Indstillinger</div>
+      <div class="menu-group">
+        <div class="menu-item" onclick="showScreen('s-sikkerhed')"><span class="menu-label">Sikkerhed</span></div>
+        <div class="menu-item" onclick="showScreen('s-sprog')"><span class="menu-label">Sprog</span></div>
+        <div class="menu-item" onclick="showScreen('s-om')"><span class="menu-label">Om</span></div>
+      </div>
+      <button class="delete-btn" onclick="document.getElementById('deleteModal').classList.add('show')">Slet e-Wallet</button>
+      <div class="settings-version">1.10.10 (106)</div>
+    </div>
+    <div class="tab-bar"><div class="tab-bar-pill"><div class="tab" onclick="showScreen('s-hjem')">Hjem</div><div class="tab active" onclick="showScreen('s-indstillinger')">Indstillinger</div></div></div>
+  </div>
+
+  <!-- SIKKERHED SCREEN -->
+  <div class="screen" id="s-sikkerhed">
+    <div class="nav-header"><button class="nav-back" onclick="showScreen('s-indstillinger')">Tilbage</button><span class="nav-title">Sikkerhed</span></div>
+    <div class="screen-scroll"><div style="padding:4px 16px 20px;">
+      <div class="photo-upload-section">
+        <div class="photo-upload-preview" id="settingsPhotoPreview">👤<input type="file" id="settingsPhotoInput" accept="image/*" onchange="handleSettingsPhoto(this)"></div>
+      </div>
+      <div class="form-group"><label class="form-label">Fulde navn</label><input class="form-input" id="editName" type="text" value="Julie Jensen"></div>
+      <div class="form-group"><label class="form-label">Fødselsdag</label><input class="form-input" id="editDob" type="date" value="2006-04-05"></div>
+      <div class="form-group"><label class="form-label">Bruger-ID</label><input class="form-input" id="editUserId" type="text" value="DK-2006-JJ-8821"></div>
+      <button class="cta-btn" onclick="saveProfile()">Gem ændringer</button>
+    </div></div>
+  </div>
+
+  <div class="screen" id="s-sprog">
+    <div class="nav-header"><button class="nav-back" onclick="showScreen('s-indstillinger')">Tilbage</button></div>
+    <button class="cta-btn" onclick="showScreen('s-indstillinger')">Gem</button>
+  </div>
+
+  <div class="screen" id="s-om">
+    <div class="nav-header"><button class="nav-back" onclick="showScreen('s-indstillinger')">Tilbage</button></div>
+    <div class="info-card"><div class="info-row"><span class="info-key">App navn</span><span class="info-val">e-Boks ID</span></div></div>
+  </div>
+
+  <div class="overlay" id="deleteModal">
+    <div class="modal"><button class="modal-btn cancel" onclick="document.getElementById('deleteModal').classList.remove('show')">Annuller</button></div>
+  </div>
+
+  <div id="landscapeOverlay" onclick="closeLandscape(event)">
+    <button id="landscapeCloseBtn" onclick="closeLandscapeBtn()">✕</button>
+    <div id="landscapeCardWrap"><div id="landscapeCard"></div></div>
+  </div>
+</div>
+
+
+    <script>
+function tick() {
+  const n = new Date();
+  document.getElementById('statusTime').textContent =
+    String(n.getHours()).padStart(2,'0')+':'+String(n.getMinutes()).padStart(2,'0');
+}
+tick(); setInterval(tick, 15000);
+
+let qrTimer = null;
+function showScreen(id) {
+  document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
+  document.getElementById(id).classList.add('active');
+  if (id === 's-qr') { drawQr(); qrTimer = setInterval(drawQr, 300); }
+  else { clearInterval(qrTimer); qrTimer = null; }
+}
+
+// PERMANENT DATALAGRING: Indlæser gemt data automatisk, når appen åbnes
+window.addEventListener('DOMContentLoaded', () => {
+  if (localStorage.getItem('wName')) {
+    const n = localStorage.getItem('wName');
+    document.getElementById('editName').value = n;
+    document.getElementById('cardName').textContent = n;
+    document.getElementById('qrCardName').textContent = n;
+  }
+  if (localStorage.getItem('wDob')) {
+    const d = localStorage.getItem('wDob');
+    document.getElementById('editDob').value = d;
+    const dt = new Date(d + 'T00:00:00');
+    const mo = ['Jan','Feb','Mar','Apr','Maj','Jun','Jul','Aug','Sep','Okt','Nov','Dec'];
+    document.getElementById('cardDob').textContent = dt.getDate()+' '+mo[dt.getMonth()]+', '+dt.getFullYear();
+  }
+  if (localStorage.getItem('wUid')) document.getElementById('editUserId').value = localStorage.getItem('wUid');
+  if (localStorage.getItem('wPhoto')) syncAllPhotos(localStorage.getItem('wPhoto'), false);
+});
+
+function saveProfile() {
+  const name = document.getElementById('editName').value.trim() || 'Julie Jensen';
+  const dob = document.getElementById('editDob').value;
+  const uid = document.getElementById('editUserId').value.trim() || 'DK-2006-JJ-8821';
+  
+  document.getElementById('cardName').textContent = name;
+  document.getElementById('qrCardName').textContent = name;
+  
+  if (dob) {
+    const dt = new Date(dob + 'T00:00:00');
+    const mo = ['Jan','Feb','Mar','Apr','Maj','Jun','Jul','Aug','Sep','Okt','Nov','Dec'];
+    document.getElementById('cardDob').textContent = dt.getDate()+' '+mo[dt.getMonth()]+', '+dt.getFullYear();
+  }
+  
+  // LÅSER DATA FAST I TELEFONENS HARDDISK
+  localStorage.setItem('wName', name);
+  localStorage.setItem('wDob', dob);
+  localStorage.setItem('wUid', uid);
+  
+  showScreen('s-indstillinger');
+}
+
+function syncAllPhotos(src, save = true) {
+  const d = document.getElementById('cardPhotoDisplay'); if (d) d.innerHTML = '<img src="'+src+'" style="width:100%;height:100%;object-fit:cover;">';
+  const qp = document.getElementById('qrPhotoDisplay'); if (qp) qp.innerHTML = '<img src="'+src+'" style="width:100%;height:100%;object-fit:cover;">';
+  const ap = document.getElementById('aldersbevisPhotoDisplay'); if (ap) ap.innerHTML = '<img src="'+src+'" style="width:100%;height:100%;object-fit:cover;">';
+  const sp = document.getElementById('settingsPhotoPreview'); if (sp) sp.innerHTML = '<img src="'+src+'" style="width:100%;height:100%;object-fit:cover;"><input type="file" id="settingsPhotoInput" accept="image/*" onchange="handleSettingsPhoto(this)">';
+  
+  if (save) localStorage.setItem('wPhoto', src);
+}
+
+function handlePhotoUpload(i) { if (i.files && i.files[0]) { const r = new FileReader(); r.onload = function(e) { syncAllPhotos(e.target.result); }; r.readAsDataURL(i.files[0]); } }
+function handleSettingsPhoto(i) { if (i.files && i.files[0]) { const r = new FileReader(); r.onload = function(e) { syncAllPhotos(e.target.result); }; r.readAsDataURL(i.files[0]); } }
+function addCard() { alert('Funktion kommer snart!'); }
+
+function drawQr(){
+  const canvas=document.getElementById('qrCanvas'); if(!canvas) return;
+  const ctx=canvas.getContext('2d'); ctx.fillStyle='#fff'; ctx.fillRect(0,0,350,350); ctx.fillStyle='#000';
+  for(let i=0;i<57;i++) for(let j=0;j<57;j++) if((i+j)%2===0) ctx.fillRect(j*6,i*6,5,5);
+}
+
+function openLandscape(idx) {
+  var slides = document.querySelectorAll('#carouselTrack > div'); if (!slides[idx]) return;
+  var cardEl = slides[idx].querySelector('.id-card'); if (!cardEl) return;
+  var lCard = document.getElementById('landscapeCard'); lCard.innerHTML = cardEl.innerHTML;
+  lCard.className = cardEl.className; document.getElementById('landscapeOverlay').classList.add('show');
+}
+function closeLandscapeBtn() { document.getElementById('landscapeOverlay').classList.remove('show'); }
+function closeLandscape(e) { if (e.target === document.getElementById('landscapeOverlay')) closeLandscapeBtn(); }
+
+var carouselCurrent = 0;
+var carouselTrack = document.getElementById('carouselTrack');
+var carouselOuter = document.getElementById('carouselOuter');
+var carouselDots = [document.getElementById('dot0'), document.getElementById('dot1')];
+function carouselGoTo(idx) { carouselCurrent = Math.max(0, Math.min(1, idx)); carouselTrack.style.transform = 'translateX(-' + (carouselCurrent * 100) + '%)'; carouselDots.forEach((d, i) => d.classList.toggle('active', i === carouselCurrent)); }
+
+var cStartX = 0, cDragging = false;
+carouselOuter.addEventListener('touchstart', (e) => { cStartX = e.touches.clientX; cDragging = true; }, {passive:true});
+carouselOuter.addEventListener('touchend', (e) => { if (!cDragging) return; cDragging = false; var dx = e.changedTouches.clientX - cStartX; if (Math.abs(dx) > 50) carouselGoTo(dx < 0 ? carouselCurrent + 1 : carouselCurrent - 1); }, {passive:true});
+</script>
 </body>
 </html>
