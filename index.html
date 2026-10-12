@@ -771,25 +771,6 @@ function showScreen(id) {
   else { clearInterval(qrTimer); qrTimer = null; }
 }
 
-window.addEventListener('DOMContentLoaded', () => {
-  if (localStorage.getItem('wName')) {
-    const n = localStorage.getItem('wName');
-    document.getElementById('editName').value = n;
-    document.getElementById('cardName').textContent = n;
-    document.getElementById('qrCardName').textContent = n;
-  }
-  if (localStorage.getItem('wDob')) {
-    const d = localStorage.getItem('wDob');
-    document.getElementById('editDob').value = d;
-    const dt = new Date(d + 'T00:00:00');
-    const mo = ['Jan','Feb','Mar','Apr','Maj','Jun','Jul','Aug','Sep','Okt','Nov','Dec'];
-    document.getElementById('cardDob').textContent = dt.getDate()+' '+mo[dt.getMonth()]+', '+dt.getFullYear();
-  }
-  if (localStorage.getItem('wUid')) document.getElementById('editUserId').value = localStorage.getItem('wUid');
-  if (localStorage.getItem('wPhoto')) syncAllPhotos(localStorage.getItem('wPhoto'));
-});
-
-  
 function saveProfile() {
   const name = document.getElementById('editName').value.trim() || 'Julie Jensen';
   const dob  = document.getElementById('editDob').value;
@@ -801,12 +782,6 @@ function saveProfile() {
     document.getElementById('cardDob').textContent = d.getDate()+' '+mo[d.getMonth()]+', '+d.getFullYear();
   }
   showScreen('s-indstillinger');
-  const name = document.getElementById('editName').value.trim() || 'Julie Jensen';
-  const dob  = document.getElementById('editDob').value;
-  const uid  = document.getElementById('editUserId').value.trim() || 'DK-2006-JJ-8821';
-  localStorage.setItem('wName', name);
-  localStorage.setItem('wDob', dob);
-  localStorage.setItem('wUid', uid);
 }
 function addCard() { alert('Tilføj nyt kort — funktion kommer snart!'); }
 
@@ -823,7 +798,6 @@ function syncAllPhotos(src) {
   // Settings preview
   const sp = document.getElementById('settingsPhotoPreview');
   if (sp) { sp.innerHTML = '<img src="'+src+'" alt="Foto"><input type="file" id="settingsPhotoInput" accept="image/*" onchange="handleSettingsPhoto(this)">'; }
-  localStorage.setItem('wPhoto', src);
 }
 
 function handlePhotoUpload(input) {
