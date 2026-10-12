@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="da">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+    <title>e-Boks ID</title>
+    <link rel="manifest" href="manifest.json">
+    
+    <!-- iOS App specifikke indstillinger der forhindrer nulstilling -->
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-title" content="e-Boks ID">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+
+    <style>
+        :root { --bg: #121212; --card: #1e1e1e; --text: #ffffff; --primary: #007aff; }
+        body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif; background-color: var(--bg); color: var(--text); margin: 0; padding: 20px; display: flex; flex-direction: column; align-items: center; justify-content: center; min-height: 100vh; box-sizing: border-box; }
+        .card { background: var(--card); padding: 30px; border-radius: 20px; box-shadow: 0 10px 30px rgba(0,0,0,0.5); width: 100%; max-width: 350px; text-align: center; box-sizing: border-box; }
+        .logo { font-size: 24px; font-weight: bold; margin-bottom: 20px; letter-spacing: 1px; }
+        .logo span { color: #f43f5e; }
+        .avatar { width: 100px; height: 100px; background: #333; border-radius: 50%; margin: 0 auto 20px; display: flex; align-items: center; justify-content: center; font-size: 40px; cursor: pointer; border: 2px dashed #666; overflow: hidden; }
+        .avatar img { width: 100%; height: 100%; object-fit: cover; }
+        .info-group { text-align: left; margin-bottom: 15px; }
+        label { font-size: 12px; color: #aaa; text-transform: uppercase; display: block; margin-bottom: 5px; }
+        input { width: 100%; padding: 12px; border: 1px solid #444; background: #2a2a2a; color: #fff; border-radius: 10px; font-size: 16px; box-sizing: border-box; }
+        button { background: var(--primary); color: white; border: none; width: 100%; padding: 14px; border-radius: 10px; font-size: 16px; font-weight: bold; cursor: pointer; margin-top: 10px; transition: background 0.2s; }
+        button:active { background: #0056b3; }
+        .badge { display: inline-block; background: #f43f5e; color: white; padding: 5px 15px; border-radius: 20px; font-weight: bold; margin-top: 15px; font-size: 14px; }
+        .hidden-file { display: none; }
+    </style>
+</head>
+<body>
+
+    <div class="card">
+        <div class="logo">e<span>●</span>Boks ID</div>
+        
+        <!-- Profilbillede -->
+        <div class="avatar" id="avatarBtn" onclick="document.getElementById('fileInput').click()">👤</div>
+        <input type="file" id="fileInput" class="hidden-file" accept="image/*">
+
+        <!-- Formular -->
+        <div class="info-group">
+            <label>Fulde navn</label>
+            <input type="text" id="fullName" placeholder="Julie Jensen">
+        </div>
+        
+        <div class="info-group">
+            <label>Fødselsdag</label>
+            <input type="date" id="birthday">
+        </div>
+
+        <div class="info-group">
+            <label>Bruger-ID</label>
+            <input type="text" id="userId" placeholder="DK-2006-JJ-8821">
+        </div>
+
+        <button onclick="saveData()">Gem ændringer</button>
+        
+        <div id="ageBadge" class="badge" style="display: none;">18+ Aldersbevis</div>
+    </div>
+
+    <script>
+        // Registrer Service Worker til offline PWA brug
+        if ('serviceWorker' in navigator) {
+            navigator.serviceWorker.register('service-worker.js');
+        }
+
+        // Indlæs gemte data fra det permanente LocalStorage ved opstart
+        window.onload = function() {
+            if (localStorage.getItem('fullName')) document.getElementById('fullName').value = localStorage.getItem('fullName');
+            if (localStorage.getItem('birthday')) {
+                document.getElementById('birthday').value = localStorage.getItem('birthday');
+                checkAge(localStorage.getItem('birthday'));
+            }
+            if (localStorage.getItem('userId')) document.getElementById('userId').value = localStorage.getItem('userId');
+            if (localStorage.getItem('avatarData')) {
+                const avatar = document.getElementById('avatarBtn');
+                avatar.innerHTML = `<img src="${localStorage.getItem('avatarData')}">`;
+            }
+        };
+
+        // Håndtering af profilbillede (konverteres til tekst-streng så det kan gemmes i iPhonens hukommelse)
+        document.getElementById('fileInput').addEventListener('change', function(e) {
+            const file = e.target.files[0];
+            if (file) {
+                const reader = new FileReader();
+                reader.onload = function(event) {
+                    document.getElementById('avatarBtn').innerHTML = `<img src="${event.target.result}">`;
+                    localStorage.setItem('avatarData', event.target.result); // Gemmer billedet permanent
+                };
+                reader.readAsDataURL(file);
+            }
+        });
+
+        // Funktion der GEMMER alt data uudsletteligt i iPhonens app-container
+        function saveData() {
+            const name = document.getElementById('fullName').value;
+            const bday = document.getElementById('birthday').value;
+            const uid = document.getElementById('userId').value;
+
+            localStorage.setItem('fullName', name);
+            localStorage.setItem('birthday', bday);
+            localStorage.setItem('userId', uid);
+
+            checkAge(bday);
+            alert('Ændringerne er låst fast og gemt permanent!');
+        }
+
+        // Tjekker automatisk om personen er over 18 ud fra fødselsdag
+        function checkAge(bdayString) {
+            if (!bdayString) return;
+            const bday = new Date(bdayString);
+            const today = new Date();
+            let age = today.getFullYear() - bday.getFullYear();
+            const m = today.getMonth() - bday.getMonth();
+            if (m < 0 || (m === 0 && today.getDate() < bday.getDate())) {
+                age--;
+            }
+            
+            const badge = document.getElementById('ageBadge');
+            if (age >= 18) {
+                badge.style.display = 'inline-block';
+            } else {
+                badge.style.display = 'none';
+            }
+        }
+    </script>
+</body>
+</html>
