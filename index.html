@@ -491,11 +491,28 @@ function saveProfile() {
     const mo = ['Jan','Feb','Mar','Apr','Maj','Jun','Jul','Aug','Sep','Okt','Nov','Dec'];
     document.getElementById('cardDob').textContent = dt.getDate()+' '+mo[dt.getMonth()]+', '+dt.getFullYear();
   }
-  
+  window.addEventListener('DOMContentLoaded', () => {
+  if (localStorage.getItem('wName')) {
+    const n = localStorage.getItem('wName');
+    document.getElementById('editName').value = n;
+    document.getElementById('cardName').textContent = n;
+    document.getElementById('qrCardName').textContent = n;
+  }
+  if (localStorage.getItem('wDob')) {
+    const d = localStorage.getItem('wDob');
+    document.getElementById('editDob').value = d;
+    const dt = new Date(d + 'T00:00:00');
+    const mo = ['Jan','Feb','Mar','Apr','Maj','Jun','Jul','Aug','Sep','Okt','Nov','Dec'];
+    document.getElementById('cardDob').textContent = dt.getDate()+' '+mo[dt.getMonth()]+', '+dt.getFullYear();
+  }
+  if (localStorage.getItem('wUid')) document.getElementById('editUserId').value = localStorage.getItem('wUid');
+});
+
   // LÅSER DATA FAST I TELEFONENS HARDDISK
   localStorage.setItem('wName', name);
   localStorage.setItem('wDob', dob);
   localStorage.setItem('wUid', uid);
+
   
   showScreen('s-indstillinger');
 }
