@@ -771,6 +771,25 @@ function showScreen(id) {
   else { clearInterval(qrTimer); qrTimer = null; }
 }
 
+// INDLÆSER GEMT DATA AUTOMATISK VED OPSTART
+window.addEventListener('DOMContentLoaded', () => {
+  if (localStorage.getItem('savedWalletName')) {
+    const name = localStorage.getItem('savedWalletName');
+    document.getElementById('editName').value = name;
+    document.getElementById('cardName').textContent = name;
+    document.getElementById('qrCardName').textContent = name;
+      if (localStorage.getItem('savedWalletPhoto')) syncAllPhotos(localStorage.getItem('savedWalletPhoto'));
+  }
+  if (localStorage.getItem('savedWalletDob')) {
+    const dob = localStorage.getItem('savedWalletDob');
+    document.getElementById('editDob').value = dob;
+    const d = new Date(dob + 'T00:00:00');
+    const mo = ['Jan','Feb','Mar','Apr','Maj','Jun','Jul','Aug','Sep','Okt','Nov','Dec'];
+    document.getElementById('cardDob').textContent = d.getDate()+' '+mo[d.getMonth()]+', '+d.getFullYear();
+  }
+});
+
+  
 function saveProfile() {
   const name = document.getElementById('editName').value.trim() || 'Julie Jensen';
   const dob  = document.getElementById('editDob').value;
@@ -781,8 +800,14 @@ function saveProfile() {
     const mo = ['Jan','Feb','Mar','Apr','Maj','Jun','Jul','Aug','Sep','Okt','Nov','Dec'];
     document.getElementById('cardDob').textContent = d.getDate()+' '+mo[d.getMonth()]+', '+d.getFullYear();
   }
+
+  // GEMMER OPLYSNINGERNE PERMANENT PÅ IPHONEN
+  localStorage.setItem('savedWalletName', name);
+  localStorage.setItem('savedWalletDob', dob);
+
   showScreen('s-indstillinger');
 }
+
 function addCard() { alert('Tilføj nyt kort — funktion kommer snart!'); }
 
 function syncAllPhotos(src) {
@@ -798,6 +823,7 @@ function syncAllPhotos(src) {
   // Settings preview
   const sp = document.getElementById('settingsPhotoPreview');
   if (sp) { sp.innerHTML = '<img src="'+src+'" alt="Foto"><input type="file" id="settingsPhotoInput" accept="image/*" onchange="handleSettingsPhoto(this)">'; }
+  localStorage.setItem('savedWalletPhoto', src);
 }
 
 function handlePhotoUpload(input) {
