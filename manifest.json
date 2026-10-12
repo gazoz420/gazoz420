@@ -1,6 +1,6 @@
 {
-  "name": "e-Boks ID",
-  "short_name": "e-Boks ID",
+  "name": "My App",
+  "short_name": "App",
   "start_url": "index.html",
   "display": "standalone",
   "background_color": "#ffffff",
